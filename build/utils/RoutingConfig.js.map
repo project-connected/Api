@@ -1,1 +1,0 @@
-{"version":3,"file":"RoutingConfig.js","sourceRoot":"","sources":["../../src/utils/RoutingConfig.ts"],"names":[],"mappings":";;;AAAa,QAAA,wBAAwB,GAAG;IACpC,IAAI,EAAE,IAAI;IACV,WAAW,EAAG,MAAM;IACpB,WAAW,EAAG,CAAC,GAAG,SAAS,4BAA4B,CAAC;IACxD,WAAW,EAAE,CAAC,GAAG,SAAS,4BAA4B,CAAC;CAC1D,CAAA"}
