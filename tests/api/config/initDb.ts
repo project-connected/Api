@@ -22,7 +22,7 @@ export async function createDatabaseConnection(): Promise<Sequelize> {
 
 async function migrate() {
     await sequelize.sync().then(() => {
-        console.log('✓ DB connection success.');
+        // console.log('✓ DB connection success.');
     })
     .catch(err => {
         console.error(err);

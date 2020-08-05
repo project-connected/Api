@@ -23,15 +23,11 @@ export async function createDatabaseConnection(): Promise<void> {
 }
 
 async function migrate() {
-    console.log('start db migrate');
     await sequelize.sync().then(() => {
-        console.log('✓ DB connection success.');
-        console.log('  Press CTRL-C to stop\n');
+        // console.log('✓ DB connection success.');
     })
     .catch(err => {
         console.error(err);
-        console.log('✗ DB connection error. Please make sure DB is running.');
         process.exit();
     });
-    console.log('end db migrate');
 }

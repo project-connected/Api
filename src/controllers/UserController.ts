@@ -1,7 +1,7 @@
 import {
     JsonController,
     HttpCode,
-    Get, Post, Body, Res, Put, Param
+    Get, Post, Body, Res, Put, Param, Authorized
 } from 'routing-controllers';
 import {CreateUserDto, UpdateUserDto} from "../dtos/UserDto";
 import {UserService} from "../services/UserService";
@@ -13,18 +13,16 @@ export class UserController {
     @HttpCode(200)
     @Post("/create")
     public async createUser(@Body() createUserDto : CreateUserDto){
-        const result = await this.userService.createUser(createUserDto);
-        return result.toJSON();
-    };
+        return await this.userService.createUser(createUserDto);
+    }
 
     @HttpCode(200)
-    @Put("/update")
+    @Put("/:userId")
     public async updateUser(
-        @Param("userId") id: number,
-        @Body() updateUserDto:UpdateUserDto,
-        @Res() res:Response
+        @Param("userId") paramId: number,
+        @Body() updateUserDto:UpdateUserDto
     ){
         const {userId} = updateUserDto;
-        return this.userService.updateUser(userId, updateUserDto);
+        return await this.userService.updateUser(userId, updateUserDto);
     }
 };
