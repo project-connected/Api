@@ -7,6 +7,8 @@ import {
     useExpressServer
 } from 'routing-controllers';
 import { routingControllerOptions } from './utils/RoutingConfig';
+import passprot from "passport";
+
 export class App{
     public app: express.Application;
 
@@ -27,6 +29,8 @@ export class App{
     private setMiddlewares(): void {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended:false}));
+        this.app.use(passprot.initialize()); // bodyParser 이후에 셋팅. 데이터 전달이 가능하다.
+        this.app.use(passprot.session());
     }
 
     public async createExpressServer(port: number): Promise<void> {

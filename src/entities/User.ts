@@ -9,9 +9,9 @@ import {
     DataType,
     BelongsTo,
     HasOne,
-    AutoIncrement,
+    AutoIncrement, BeforeCreate,
 } from 'sequelize-typescript';
-
+import bcrypt  from 'bcrypt';
 @Table({
     underscored: true,
 })
@@ -26,4 +26,17 @@ export class User extends Model<User>{
 
     @Column(DataType.STRING)
     public email!: string;
+
+    @Column(DataType.STRING)
+    public password!: string;
+
+    @BeforeCreate
+    static async hashPassword(instance : User) {
+        instance.password = await bcrypt.hash(instance.password, 10);
+    }
+
+    async comparePassword(unencryptedPassword: string) : Promise<boolean> {
+        return await bcrypt.compare(unencryptedPassword, this.password);
+    }
+
 }

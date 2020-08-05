@@ -10,6 +10,7 @@ import {
 @Middleware({ type: "after" })
 export class ErrorHandler implements ExpressErrorMiddlewareInterface {
     error(error: any, req: Request, res: Response, next: NextFunction): void {
+        console.log(error);
         next(error);
     }
 }
