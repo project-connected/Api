@@ -1,7 +1,7 @@
 import {Sequelize} from "sequelize-typescript";
 import {env} from "../../../src/env";
 
-const sequelize = new Sequelize({
+export const sequelize = new Sequelize({
     dialect: 'sqlite',
     host:env.database.host,
     database: ":memory:",

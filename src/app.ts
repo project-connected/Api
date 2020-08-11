@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from "body-parser";
-import {createDatabaseConnection} from './database';
+import {createDatabaseConnection, sequelize} from './database';
 import {Container} from 'typedi';
 import {
     useContainer,
@@ -21,6 +21,7 @@ export class App{
     private async setDatabase():Promise<void> {
         try {
             await createDatabaseConnection();
+            Container.set("sequelize",sequelize);
         } catch (e) {
             console.log(e);
         }
