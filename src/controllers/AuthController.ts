@@ -6,8 +6,6 @@ import {
 import {AuthService} from "../services/AuthService";
 import {LocalAuthenticate} from "../middlewares/AuthMiddleware";
 import {createJWT} from "../utils/token";
-import jwt from 'jsonwebtoken';
-import {env} from '../env';
 
 @JsonController("/auth")
 export class AuthController {
