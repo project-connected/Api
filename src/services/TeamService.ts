@@ -1,6 +1,8 @@
 import {Service} from 'typedi';
 import {CreateTeamDto, PageableTeamDto} from "../dtos/TeamDto";
 import {Team} from "../entities/Team";
+import {Builder} from "builder-pattern";
+import {Response} from "../dtos/Response";
 
 @Service()
 export class TeamService {
@@ -14,11 +16,25 @@ export class TeamService {
         offset: number,
         limit: number,
         sort?: string,
-    ): Promise<Team[]>{
-        switch (sort) {
-            default:
-                const result = await Team.findAll({offset, limit, order: 'createDate desc'});
-                return result.toJSON();
+    ) {
+        try {
+
+            switch (sort) {
+                default:
+                    const result = await Team.findAll({offset, limit, order: [['createDate', 'desc']]});
+                    return Builder(Response)
+                        ._links({'self': ''})
+                        .status(200)
+                        .result(result)
+                        .build();
+            }
+        }catch (e) {
+            return Builder(Response)
+                ._links({'self': ''})
+                .status(500)
+                .message('팀목록을 가져오는데 오류가 발생했습니다.')
+                .result(null)
+                .build();
         }
     }
 }
