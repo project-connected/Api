@@ -1,5 +1,5 @@
 interface _links {
-    self? : string;
+    self : string;
 }
 
 export class Response {
@@ -10,5 +10,5 @@ export class Response {
 
     public _links? : _links;
 
-    public result: any;
+    public result?: any;
 }

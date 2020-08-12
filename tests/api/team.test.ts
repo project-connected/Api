@@ -31,7 +31,7 @@ const UserSeed = Builder(CreateUserDto)
     .build();
 
 let TeamSeeds = [];
-for (let i=0; i<100; i++){
+for (let i=0; i<10; i++){
     let date = new Date();
     date.setDate(date.getDate()-i);
     const TeamSeed = Builder(CreateTeamDto)
@@ -69,7 +69,7 @@ beforeAll(async () => {
                 .statusId("B01000") // 팀장 코드
                 .build();
 
-            const match = await this.matchService.createMatch(createMatchDto, t);
+            const match = await matchService.createMatch(createMatchDto, t);
         })
     }
 })
@@ -101,10 +101,20 @@ describe("POST /api/team", ()=> {
         const {body} = response;
 
         // expect(body.userId).toEqual(createdUser.userId);
-        expect(body.statusId).toEqual("B01000"); // 팀장 임시 코드
+        // expect(body.statusId).toEqual("B01000"); // 팀장 임시 코드
     });
 });
 
 describe("GET /api/team", ()=> {
+    it("200: 팀 목록 조회에 성공한다.", async () => {
+        const response = await request(app)
+            .get("/api/team?offset=0&limit=10")
+            .set(setHeader(token))
+            .expect(200);
 
+        const {body} = response;
+
+        console.log(body);
+
+    });
 })

@@ -21,16 +21,16 @@ export class TeamService {
 
             switch (sort) {
                 default:
-                    const result = await Team.findAll({offset, limit, order: [['createDate', 'desc']]});
+                    const result = await Team.findAll({offset, limit, order: [['createDate', 'desc']], raw:true});
                     return Builder(Response)
-                        ._links({'self': ''})
+                        ._links({self: ''})
                         .status(200)
                         .result(result)
                         .build();
             }
         }catch (e) {
             return Builder(Response)
-                ._links({'self': ''})
+                ._links({self: ""})
                 .status(500)
                 .message('팀목록을 가져오는데 오류가 발생했습니다.')
                 .result(null)
