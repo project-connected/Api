@@ -12,6 +12,9 @@ import {
     AutoIncrement, BeforeCreate,
 } from 'sequelize-typescript';
 import {Col} from "sequelize/types/lib/utils";
+import {ENUM} from "sequelize";
+import {Area} from "../dtos/EnumArea";
+import {IsEnum} from "class-validator";
 
 @Table({
     underscored: true,
@@ -26,7 +29,7 @@ export class Team extends Model<Team>{
     public maxCount : number;
 
     @Column
-    public areaId : string;
+    public area : string;
 
     @Column
     public content : string;
@@ -35,7 +38,7 @@ export class Team extends Model<Team>{
     public title : string;
 
     @Column
-    public themeId : string;
+    public theme : string;
 
     @Column
     public thumbnail: string;
@@ -54,4 +57,7 @@ export class Team extends Model<Team>{
 
     @UpdatedAt
     public updateDate: Date;
+
+    @Column
+    public skill?: string;
 }

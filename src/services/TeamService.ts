@@ -1,6 +1,12 @@
 import {Service} from 'typedi';
 import {CreateTeamDto, PageableTeamDto} from "../dtos/TeamDto";
 import {Team} from "../entities/Team";
+import {Op} from "sequelize";
+import {Builder} from "builder-pattern";
+import {Response} from "../dtos/Response";
+import {Area} from "../dtos/EnumArea";
+import {Skill} from "../dtos/EnumSkill";
+import {Theme} from "../dtos/EnumTheme";
 
 @Service()
 export class TeamService {
@@ -13,12 +19,40 @@ export class TeamService {
     public async getTeams(
         offset: number,
         limit: number,
+        area: Area[],
+        skill: Skill[],
+        theme: Theme[],
         sort?: string,
-    ): Promise<Team[]>{
+        startDate?: string,
+        endDate?: string
+    ) {
+        let searchOptions = {};
+        if (area.length)
+            searchOptions['area'] = {[Op.regexp]: area.join('|')};
+        if (skill.length)
+            searchOptions['skill'] = {[Op.regexp]: skill.join('|')};
+        if (theme.length)
+            searchOptions['theme'] = {[Op.regexp]: theme.join('|')};
+        if (startDate && endDate)
+            searchOptions[Op.and] = [
+                {startDate: {[Op.gte]:new Date(startDate)}},
+                {endDate: {[Op.lte]:new Date(endDate)}}
+            ];
+
         switch (sort) {
             default:
-                const result = await Team.findAll({offset, limit, order: 'createDate desc'});
-                return result.toJSON();
+                const result = await Team.findAll({
+                    offset,
+                    limit,
+                    where: searchOptions,
+                    order: [['createDate', 'desc']],
+                    raw:true
+                });
+                return Builder(Response)
+                    .status(200)
+                    .result(result)
+                    ._links({self:''})
+                    .build();
         }
     }
 }

@@ -49,10 +49,16 @@ export class TeamController{
     public async getAll(
         @QueryParams() pageableTeamDto: PageableTeamDto
     ){
+        console.log(pageableTeamDto.area,pageableTeamDto.skill,pageableTeamDto.theme);
         return await this.teamService.getTeams(
             pageableTeamDto.offset,
             pageableTeamDto.limit,
-            pageableTeamDto.sort
+            pageableTeamDto.area,
+            pageableTeamDto.skill,
+            pageableTeamDto.theme,
+            pageableTeamDto.sort,
+            pageableTeamDto.startDate,
+            pageableTeamDto.endDate
         );
     }
 }
