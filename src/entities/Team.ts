@@ -11,10 +11,6 @@ import {
     HasOne,
     AutoIncrement, BeforeCreate,
 } from 'sequelize-typescript';
-import {Col} from "sequelize/types/lib/utils";
-import {ENUM} from "sequelize";
-import {Area} from "../dtos/EnumArea";
-import {IsEnum} from "class-validator";
 
 @Table({
     underscored: true,

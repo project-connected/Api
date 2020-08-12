@@ -8,6 +8,7 @@ import {Builder} from "builder-pattern";
 import {CreateMatchDto} from "../dtos/MatchDto";
 import {User} from "../entities/User";
 import {Container, Inject} from "typedi";
+import {Response} from "../dtos/Response";
 
 
 @JsonController("/team")
@@ -40,7 +41,9 @@ export class TeamController{
             return result;
         }catch (e) {
             console.log(e);
-            return {status:500, message:'팀등록 처리중 에러가 발생했습니다.'};
+            return Builder(Response)
+                .status(500)
+                .message('팀등록 처리중 에러가 발생했습니다.');
         }
     }
 

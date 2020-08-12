@@ -9,13 +9,14 @@ import {UserService} from "../../src/services/UserService";
 import {createJWT} from "../../src/utils/token";
 import {CreateUserDto} from "../../src/dtos/UserDto";
 import {TeamService} from "../../src/services/TeamService";
+import {MatchService} from "../../src/services/MatchService";
 import {CreateMatchDto} from "../../src/dtos/MatchDto";
 import {MatchService} from "../../src/services/MatchService";
 
 let db: Sequelize;
 let userService:UserService;
 let teamService:TeamService;
-let matchService: MatchService;
+let matchService:MatchService;
 
 const setHeader = (
     token: string,

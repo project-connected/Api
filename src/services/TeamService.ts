@@ -26,33 +26,42 @@ export class TeamService {
         startDate?: string,
         endDate?: string
     ) {
-        let searchOptions = {};
-        if (area.length)
-            searchOptions['area'] = {[Op.regexp]: area.join('|')};
-        if (skill.length)
-            searchOptions['skill'] = {[Op.regexp]: skill.join('|')};
-        if (theme.length)
-            searchOptions['theme'] = {[Op.regexp]: theme.join('|')};
-        if (startDate && endDate)
-            searchOptions[Op.and] = [
-                {startDate: {[Op.gte]:new Date(startDate)}},
-                {endDate: {[Op.lte]:new Date(endDate)}}
-            ];
+        try {
+          let searchOptions = {};
+          if (area.length)
+              searchOptions['area'] = {[Op.regexp]: area.join('|')};
+          if (skill.length)
+              searchOptions['skill'] = {[Op.regexp]: skill.join('|')};
+          if (theme.length)
+              searchOptions['theme'] = {[Op.regexp]: theme.join('|')};
+          if (startDate && endDate)
+              searchOptions[Op.and] = [
+                  {startDate: {[Op.gte]:new Date(startDate)}},
+                  {endDate: {[Op.lte]:new Date(endDate)}}
+              ];
 
-        switch (sort) {
-            default:
-                const result = await Team.findAll({
-                    offset,
-                    limit,
-                    where: searchOptions,
-                    order: [['createDate', 'desc']],
-                    raw:true
-                });
-                return Builder(Response)
-                    .status(200)
-                    .result(result)
-                    ._links({self:''})
-                    .build();
+            switch (sort) {
+                default:
+                    const result = await Team.findAll({
+                        offset,
+                        limit,
+                        where: searchOptions,
+                        order: [['createDate', 'desc']],
+                        raw:true
+                    });
+                    return Builder(Response)
+                        .status(200)
+                        .result(result)
+                        ._links({self:''})
+                        .build();
+            }
+        }catch (e) {
+            return Builder(Response)
+                ._links({self: ""})
+                .status(500)
+                .message('팀목록을 가져오는데 오류가 발생했습니다.')
+                .result(null)
+                .build();
         }
     }
 }
