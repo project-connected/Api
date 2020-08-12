@@ -11,7 +11,6 @@ import {
     HasOne,
     AutoIncrement, BeforeCreate,
 } from 'sequelize-typescript';
-import {Col} from "sequelize/types/lib/utils";
 
 @Table({
     underscored: true,
