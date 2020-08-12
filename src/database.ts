@@ -18,23 +18,6 @@ export async function createDatabaseConnection(): Promise<void> {
         await sequelize.authenticate(); // 연결 테스트
         if (env.isProduction == false){
             await migrate(); // 실제 서비스가 아닐 경우 DB 테이블 재생성
-
-            let TeamSeeds = [];
-            for (let i=0; i<100; i++){
-                let date = new Date();
-                date.setDate(date.getDate()-i);
-                const TeamSeed = Builder(CreateTeamDto)
-                    .areaId("areaId")
-                    .title("title")
-                    .content("content")
-                    .endDate(date)
-                    .startDate(date)
-                    .maxCount(5)
-                    .thumbnail("")
-                    .themeId("temeId")
-                    .build();
-                TeamSeeds.push(TeamSeed);
-            }
         }
     } catch (error) {
         throw error;

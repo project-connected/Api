@@ -11,6 +11,7 @@ import {CreateUserDto} from "../../src/dtos/UserDto";
 import {TeamService} from "../../src/services/TeamService";
 import {MatchService} from "../../src/services/MatchService";
 import {CreateMatchDto} from "../../src/dtos/MatchDto";
+import {MatchService} from "../../src/services/MatchService";
 
 let db: Sequelize;
 let userService:UserService;
@@ -35,15 +36,16 @@ for (let i=0; i<10; i++){
     let date = new Date();
     date.setDate(date.getDate()-i);
     const TeamSeed = Builder(CreateTeamDto)
-    .areaId("areaId")
-    .title("title")
-    .content("content")
-    .endDate(date)
-    .startDate(date)
-    .maxCount(5)
-    .thumbnail("")
-    .themeId("temeId")
-    .build();
+        .area("areaId")
+        .title("title")
+        .content("content")
+        .endDate(date)
+        .startDate(date)
+        .maxCount(5)
+        .thumbnail("")
+        .theme("temeId")
+        .skill("Photoshop,React.JS,Android")
+        .build();
     TeamSeeds.push(TeamSeed);
 }
 
@@ -82,14 +84,14 @@ afterAll(async () => {
 describe("POST /api/team", ()=> {
     it("200: 팀 생성에 성공한다.", async () => {
         const teamSeed = Builder(CreateTeamDto)
-            .areaId("areaId")
+            .area("areaId")
             .title("title")
             .content("content")
             .endDate(new Date())
             .startDate(new Date())
             .maxCount(5)
             .thumbnail("")
-            .themeId("temeId")
+            .theme("temeId")
             .build();
 
         const response = await request(app)
