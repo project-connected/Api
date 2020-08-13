@@ -11,7 +11,7 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @HttpCode(200)
-    @Post("/create")
+    @Post()
     public async createUser(@Body() createUserDto : CreateUserDto){
         return await this.userService.createUser(createUserDto);
     }
