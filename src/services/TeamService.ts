@@ -37,7 +37,7 @@ export class TeamService {
           if (startDate && endDate)
               searchOptions[Op.and] = [
                   {startDate: {[Op.gte]:new Date(startDate)}},
-                  {endDate: {[Op.lte]:new Date(endDate)}}
+                  {endDate: {[Op.lte]:new Date(endDate+" 23:59:59")}}
               ];
 
             switch (sort) {
