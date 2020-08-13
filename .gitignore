@@ -3,6 +3,7 @@
 
 ./builder
 config/
+.idea/
 
 ### macOS ###
 # General
