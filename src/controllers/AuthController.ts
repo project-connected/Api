@@ -6,6 +6,10 @@ import {
 import {AuthService} from "../services/AuthService";
 import {LocalAuthenticate} from "../middlewares/AuthMiddleware";
 import {createJWT} from "../utils/token";
+import {Builder} from "builder-pattern";
+import {Response} from "../dtos/Response";
+import {UserInfoDto} from "../dtos/UserDto";
+
 
 @JsonController("/auth")
 export class AuthController {
@@ -16,11 +20,14 @@ export class AuthController {
     @UseBefore(LocalAuthenticate)
     @Post("/local/login")
     public localLogin(@Req() req){
-        const user = req.user;
+        const reqUser = req.user;
+        const token = createJWT(reqUser.userId);
+        const user = new UserInfoDto(reqUser);
 
-        const token = createJWT(user.userId);
-
-        return {token};
+        return Builder(Response)
+            .status(200)
+            .result({user,token})
+            .build();
     }
 
 }

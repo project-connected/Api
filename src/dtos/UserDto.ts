@@ -12,6 +12,21 @@ export class LoginUserDto {
     public password;
 }
 
+export class UserInfoDto {
+
+    public email: string;
+
+    public userName: string;
+
+    public userId: number;
+
+    constructor(user:User) {
+        this.email = user.email;
+        this.userName = user.userName;
+        this.userId = user.userId;
+    }
+}
+
 export class CreateUserDto {
     @IsNotEmpty()
     @Length(1,20)
@@ -24,16 +39,6 @@ export class CreateUserDto {
     @Length(1,100)
     @IsEmail()
     public email: string;
-
-    public toEntity(): User {
-        const {userName, email} = this;
-
-        const user = new User();
-        user.email = email;
-        user.userName = userName;
-
-        return user;
-    }
 }
 
 export class UpdateUserDto {
