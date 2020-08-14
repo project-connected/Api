@@ -20,7 +20,7 @@ const LocalStrategy = passportLocal.Strategy;
 
 passport.use("local",new LocalStrategy({usernameField: "email", passwordField:"password",session:false},
     async (email, password, done)=>{
-        const user:User = await User.findOne({where:{email}})
+        const user:User = await User.findOne({where:{email}, raw:false})
         if (!user)
             return done(undefined, false, {message:'일치하는 아이디가 없습니다.'});
 
