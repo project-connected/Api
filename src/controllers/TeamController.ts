@@ -9,6 +9,7 @@ import {CreateMatchDto} from "../dtos/MatchDto";
 import {User} from "../entities/User";
 import {Container, Inject} from "typedi";
 import {Response} from "../dtos/Response";
+import {Match} from "../entities/Match";
 
 
 @JsonController("/team")
@@ -19,14 +20,15 @@ export class TeamController{
     /**
      * 새로운 팀을 등록한다.
      * @param creatTeamDto
+     * @param user
      */
     @HttpCode(200)
     @Post()
     @Authorized()
-    public async createTeam(@Body() creatTeamDto:CreateTeamDto, @CurrentUser() user?:User){
+    public async createTeam(@Body() creatTeamDto: CreateTeamDto, @CurrentUser() user?: User){
         try {
             const result = await this.sequelize.transaction(async (t) => {
-                const team:Team = await this.teamService.createTeam(creatTeamDto, t);
+                const team: Team = await this.teamService.createTeam(creatTeamDto, t);
 
                 const createMatchDto = Builder(CreateMatchDto)
                     .userId(user.userId)
@@ -34,12 +36,12 @@ export class TeamController{
                     .statusId("B01000") // 팀장 코드
                     .build();
 
-                const match = await this.matchService.createMatch(createMatchDto, t);
+                const match: Match = await this.matchService.createMatch(createMatchDto, t);
 
                 return team;
             });
             return result;
-        }catch (e) {
+        } catch (e) {
             console.log(e);
             return Builder(Response)
                 .status(500)
