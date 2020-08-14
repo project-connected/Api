@@ -10,6 +10,12 @@ import {UserService} from "../services/UserService";
 export class UserController {
     constructor(private userService: UserService) {}
 
+    /**
+     *  리턴 결과
+     *  409 이미 존재하는 이메일
+     *  200 가입 성공
+     * @param createUserDto
+     */
     @HttpCode(200)
     @Post()
     public async createUser(@Body() createUserDto : CreateUserDto){

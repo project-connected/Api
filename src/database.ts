@@ -10,7 +10,8 @@ export const sequelize = new Sequelize({
     username: env.database.username,
     password: env.database.password,
     database: env.database.name,
-    models: [__dirname + "/entities/*{.ts,.js}"]
+    models: [__dirname + "/entities/*{.ts,.js}"],
+    query :{raw:true},
 });
 
 export async function createDatabaseConnection(): Promise<void> {

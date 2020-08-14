@@ -9,7 +9,7 @@ import {
     DataType,
     BelongsTo,
     HasOne,
-    AutoIncrement, BeforeCreate,
+    AutoIncrement, BeforeCreate, AfterCreate,
 } from 'sequelize-typescript';
 import bcrypt  from 'bcrypt';
 @Table({
