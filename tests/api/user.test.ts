@@ -8,6 +8,7 @@ let db: Sequelize;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
+    await Promise.all([db])
 })
 
 afterAll(async () => {
@@ -38,8 +39,8 @@ describe("POST /api/user", ()=> {
             .send(testUser)
 
         const {body} = response
+        console.log(body)
         expect(body.status).toEqual(409)
-        expect(body.result.userName).toEqual("test");
-        expect(body.result.email).toEqual('test@test.com');
+        expect(body.result.userId).toEqual(1);
     })
 });

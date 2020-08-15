@@ -23,6 +23,7 @@ let createdUser:Response;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
+    await Promise.all([db])
     userService = new UserService();
 
     createdUser = <Response>await userService.createUser(UserSeed);

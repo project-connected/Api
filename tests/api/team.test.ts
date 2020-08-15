@@ -54,12 +54,14 @@ let createdUser:Response;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
+    await Promise.all([db])
     userService = new UserService();
     teamService = new TeamService();
     matchService = new MatchService();
 
     createdUser = <Response>await userService.createUser(UserSeed);
     token = createJWT(createdUser.result.userId);
+    await Promise.all([token]);
 
     for (var i=0; i<TeamSeeds.length; i++){
         await db.transaction(async (t)=>{
