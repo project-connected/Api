@@ -11,7 +11,7 @@ import {CreateUserDto} from "../../src/dtos/UserDto";
 import {TeamService} from "../../src/services/TeamService";
 import {MatchService} from "../../src/services/MatchService";
 import {CreateMatchDto} from "../../src/dtos/MatchDto";
-import {MatchService} from "../../src/services/MatchService";
+import {Response} from "../../src/dtos/Response"
 
 let db: Sequelize;
 let userService:UserService;
@@ -50,7 +50,7 @@ for (let i=0; i<10; i++){
 }
 
 let token;
-let createdUser:User;
+let createdUser:Response;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
@@ -58,15 +58,15 @@ beforeAll(async () => {
     teamService = new TeamService();
     matchService = new MatchService();
 
-    createdUser = await userService.createUser(UserSeed);
-    token = createJWT(createdUser.userId);
+    createdUser = <Response>await userService.createUser(UserSeed);
+    token = createJWT(createdUser.result.userId);
 
     for (var i=0; i<TeamSeeds.length; i++){
         await db.transaction(async (t)=>{
             const team = await teamService.createTeam(TeamSeeds[i], t);
 
             const createMatchDto = Builder(CreateMatchDto)
-                .userId(createdUser.userId)
+                .userId(createdUser.result.userId)
                 .teamId(team.teamId)
                 .statusId("B01000") // 팀장 코드
                 .build();

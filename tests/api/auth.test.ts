@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from './config/initApp';
 import {createDatabaseConnection} from './config/initDb';
 import {Repository, Sequelize} from "sequelize-typescript";
+import {Response} from "../../src/dtos/Response"
 import {User} from "../../src/entities/User";
 import {CreateUserDto, UpdateUserDto} from "../../src/dtos/UserDto";
 import {Builder } from 'builder-pattern';
@@ -18,14 +19,14 @@ const UserSeed = Builder(CreateUserDto)
     .build();
 
 let token;
-let createdUser:User;
+let createdUser:Response;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
     userService = new UserService();
 
-    createdUser = await userService.createUser(UserSeed);
-    token = createJWT(createdUser.userId);
+    createdUser = <Response>await userService.createUser(UserSeed);
+    token = createJWT(createdUser.result.userId);
 })
 
 afterAll(async () => {

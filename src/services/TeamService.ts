@@ -27,7 +27,7 @@ export class TeamService {
         endDate?: string
     ) {
         try {
-          let searchOptions = {};
+          const searchOptions = {};
           if (area.length)
               searchOptions['area'] = {[Op.regexp]: area.join('|')};
           if (skill.length)
