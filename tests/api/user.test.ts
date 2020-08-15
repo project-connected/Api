@@ -14,7 +14,7 @@ afterAll(async () => {
     await db.close();
 })
 
-describe("POST /api/user/create", ()=> {
+describe("POST /api/user", ()=> {
     it("200: 유저 생성 성공", async () => {
         const testUser = Builder(CreateUserDto)
             .userName('test')
@@ -23,12 +23,12 @@ describe("POST /api/user/create", ()=> {
             .build();
 
         const response = await request(app)
-            .post("/api/user/create")
+            .post("/api/user")
             .send(testUser)
             .expect(200);
 
         const {body} = response;
-        expect(body.userName).toEqual("test");
-        expect(body.email).toEqual('test@test.com');
+        expect(body.result.userName).toEqual("test");
+        expect(body.result.email).toEqual('test@test.com');
     });
 });
