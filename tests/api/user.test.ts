@@ -4,6 +4,7 @@ import {createDatabaseConnection} from './config/initDb';
 import {Sequelize} from "sequelize-typescript";
 import {CreateUserDto, UpdateUserDto} from "../../src/dtos/UserDto";
 import {Builder } from 'builder-pattern';
+import {Response} from "../../src/dtos/Response";
 let db: Sequelize;
 
 beforeAll(async () => {

@@ -41,7 +41,7 @@ describe("userService 유닛 테스트", () => {
             .userName("update")
             .build();
 
-        const result = await userService.updateUser(
+        const {result} = await userService.updateUser(
             prevUserId,
             updateUser
         );
