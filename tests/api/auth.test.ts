@@ -4,7 +4,7 @@ import {createDatabaseConnection} from './config/initDb';
 import {Repository, Sequelize} from "sequelize-typescript";
 import {Response} from "../../src/dtos/Response"
 import {User} from "../../src/entities/User";
-import {CreateUserDto, UpdateUserDto} from "../../src/dtos/UserDto";
+import {CreateUserDto, UpdateUserDto, UserInfoDto} from "../../src/dtos/UserDto";
 import {Builder } from 'builder-pattern';
 import {UserService} from "../../src/services/UserService";
 import {createJWT, decodeJWT} from "../../src/utils/token";
@@ -19,15 +19,16 @@ const UserSeed = Builder(CreateUserDto)
     .build();
 
 let token;
-let createdUser:Response;
+let createdUser:UserInfoDto;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
     await Promise.all([db])
     userService = new UserService();
 
-    createdUser = <Response>await userService.createUser(UserSeed);
-    token = createJWT(createdUser.result.userId);
+    const {result} = <Response>await userService.createUser(UserSeed);
+    createdUser = result;
+    token = createJWT(createdUser.userId);
 })
 
 afterAll(async () => {
