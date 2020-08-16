@@ -11,7 +11,6 @@ import {CreateUserDto} from "../../src/dtos/UserDto";
 import {TeamService} from "../../src/services/TeamService";
 import {MatchService} from "../../src/services/MatchService";
 import {CreateMatchDto} from "../../src/dtos/MatchDto";
-import {MatchService} from "../../src/services/MatchService";
 
 let db: Sequelize;
 let userService:UserService;
@@ -58,7 +57,8 @@ beforeAll(async () => {
     teamService = new TeamService();
     matchService = new MatchService();
 
-    createdUser = await userService.createUser(UserSeed);
+    const createResponse = await userService.createUser(UserSeed);
+    createdUser = createResponse.result;
     token = createJWT(createdUser.userId);
 
     for (var i=0; i<TeamSeeds.length; i++){
@@ -107,16 +107,16 @@ describe("POST /api/team", ()=> {
     });
 });
 
-describe("GET /api/team", ()=> {
-    it("200: 팀 목록 조회에 성공한다.", async () => {
-        const response = await request(app)
-            .get("/api/team?offset=0&limit=10")
-            .set(setHeader(token))
-            .expect(200);
-
-        const {body} = response;
-
-        console.log(body);
-
-    });
-})
+// describe("GET /api/team", ()=> {
+//     it("200: 팀 목록 조회에 성공한다.", async () => {
+//         const response = await request(app)
+//             .get("/api/team?offset=0&limit=10")
+//             .set(setHeader(token))
+//             .expect(200);
+//
+//         const {body} = response;
+//
+//         console.log(body);
+//
+//     });
+// })

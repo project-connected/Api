@@ -25,9 +25,10 @@ describe("userService 유닛 테스트", () => {
             .email('test@test.com')
             .build();
 
-        testUser = await userService.createUser(seedUser);
-        expect(testUser.userName).toBe('test');
-        expect(testUser.email).toBe('test@test.com');
+        const {result} = await userService.createUser(seedUser);
+        testUser = result;
+        expect(result.userName).toBe('test');
+        expect(result.email).toBe('test@test.com');
     });
 
     it("id가 일치하는 유저 정보 업데이트 성공", async ()=> {
@@ -40,7 +41,7 @@ describe("userService 유닛 테스트", () => {
             .userName("update")
             .build();
 
-        const result = await userService.updateUser(
+        const {result} = await userService.updateUser(
             prevUserId,
             updateUser
         );

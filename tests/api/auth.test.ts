@@ -24,7 +24,8 @@ beforeAll(async () => {
     db = await createDatabaseConnection();
     userService = new UserService();
 
-    createdUser = await userService.createUser(UserSeed);
+    const {result}= await userService.createUser(UserSeed);
+    createdUser = result;
     token = createJWT(createdUser.userId);
 })
 
@@ -40,7 +41,8 @@ describe("POST /api/auth/local/login", ()=> {
             .expect(200);
 
         const {body} = response;
-        const user = await decodeJWT(body.token);
-        // expect(user.userId).toEqual(createdUser.userId);
+        const {result} = body;
+        const user = await decodeJWT(result.token);
+        expect(user.userId).toEqual(createdUser.userId);
     });
 });
