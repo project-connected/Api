@@ -45,6 +45,6 @@ describe("userService 유닛 테스트", () => {
             prevUserId,
             updateUser
         );
-        expect(result.result).toBe(true);
+        expect(result.userId).toBe(prevUserId);
     });
 });
