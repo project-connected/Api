@@ -9,6 +9,7 @@ let db: Sequelize;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
+    await Promise.all([db])
 })
 
 afterAll(async () => {
@@ -16,21 +17,31 @@ afterAll(async () => {
 })
 
 describe("POST /api/user", ()=> {
-    it("200: 유저 생성 성공", async () => {
-        const testUser = Builder(CreateUserDto)
-            .userName('test')
-            .password("1234")
-            .email('test@test.com')
-            .build();
+    const testUser = Builder(CreateUserDto)
+        .userName('test')
+        .password("1234")
+        .email('test@test.com')
+        .build();
 
+    it("200: 유저 생성 성공", async () => {
         const response = await request(app)
             .post("/api/user")
             .send(testUser)
-            .expect(200);
 
         const {body} = response;
-        const {result} = body;
-        expect(result.userName).toEqual("test");
-        expect(result.email).toEqual('test@test.com');
+        expect(body.status).toEqual(200)
+        expect(body.result.userName).toEqual("test");
+        expect(body.result.email).toEqual('test@test.com');
     });
+
+    it("409: 중복 유저, 유저 생성 실패", async () => {
+        const response = await request(app)
+            .post("/api/user")
+            .send(testUser)
+
+        const {body} = response
+        console.log(body)
+        expect(body.status).toEqual(409)
+        expect(body.result.userId).toEqual(1);
+    })
 });
