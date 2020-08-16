@@ -35,16 +35,17 @@ export class UserService {
         // Todo : jwt userId, 파라미터 userId 비교와 같은 검증 로직이 들어가야함
         const findUser:User = await User.findOne({where: {userId}});
         if (findUser) {
-            const result = await User.update(updateUserDto,{where:{userId}});
-            const status = result == 1 ? 200 : 500;
+            // const result = await User.update(updateUserDto,{where:{userId}});
+            const result = await findUser.set(updateUserDto);
+            // const status = result == 1 ? 200 : 500;
             return Builder(Response)
-                .status(status)
-                .result(true)
+                .status(200)
+                .result(new UserInfoDto(findUser))
                 .build();
         }
         return Builder(Response)
             .status(409)
-            .result(false)
+            .result(null)
             .build();;
     }
 

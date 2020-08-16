@@ -8,6 +8,7 @@ let db: Sequelize;
 
 beforeAll(async () => {
     db = await createDatabaseConnection();
+    await Promise.all([db])
 })
 
 afterAll(async () => {

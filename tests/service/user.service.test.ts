@@ -6,7 +6,7 @@ import {CreateUserDto, UpdateUserDto} from "../../src/dtos/UserDto";
 
 describe("userService 유닛 테스트", () => {
     let db: Sequelize;
-    let userService : UserService;
+    let userService: UserService;
     let testUser;
 
     beforeAll(async () => {
@@ -26,25 +26,25 @@ describe("userService 유닛 테스트", () => {
             .build();
 
         testUser = await userService.createUser(seedUser);
-        expect(testUser.userName).toBe('test');
-        expect(testUser.email).toBe('test@test.com');
+        console.log(testUser)
+        expect(testUser.result.userName).toBe('test');
+        expect(testUser.result.email).toBe('test@test.com');
     });
 
-    it("id가 일치하는 유저 정보 업데이트 성공", async ()=> {
-        const prevUserEmail = testUser.email;
-        const prevUserName = testUser.userName;
-        const prevUserId = testUser.userId;
+    it("id가 일치하는 유저 정보 업데이트 성공", async () => {
+        const prevUserEmail = testUser.result.email;
+        const prevUserName = testUser.result.userName;
+        const prevUserId = testUser.result.userId;
 
         const updateUser = Builder(UpdateUserDto)
             .userId(prevUserId)
             .userName("update")
             .build();
 
-        const result = await userService.updateUser(
+        const {result} = await userService.updateUser(
             prevUserId,
             updateUser
         );
-        expect(result.userId).toBe(prevUserId);
-        expect(result.userName).toBe("update");
+        expect(result.result).toBe(true);
     });
 });
