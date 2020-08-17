@@ -15,9 +15,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set env files
+        shell: bash
         run: |
           mkdir config
-          echo ${{ secrets.ENV_TEST }} >> config/.env.test
+          echo '$ENV_TEST' >> config/.env.test
+        env:
+          ENV_TEST: ${{ secrets.ENV_TEST }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v1
