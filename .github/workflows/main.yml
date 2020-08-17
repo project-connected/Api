@@ -31,11 +31,17 @@ jobs:
         run: |
           npm install
           npm test
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           name: codecov-goodteam-server
           fail_ci_if_error: true
+
+      - name: rm env file
+        run: |
+          rm -r config
+
       - name: Docker build
         run: |
           docker build -t syh622/goodteam .
