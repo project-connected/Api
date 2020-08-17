@@ -40,9 +40,8 @@ jobs:
 
       - name: rm env file
         run: |
-          cd ..
           rm -r config
-
+          ls
       - name: Docker build
         run: |
           docker build -t syh622/goodteam .
