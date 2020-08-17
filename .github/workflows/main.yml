@@ -16,9 +16,8 @@ jobs:
 
       - name: Set env files
         run: |
-          ${{ secrets.ENV }} >> .env
           mkdir config
-          ${{ secrets.ENV_TEST }} >> config/.env.test
+          echo ${{ secrets.ENV_TEST }} >> config/.env.test
 
       - name: Set up Node.js
         uses: actions/setup-node@v1
