@@ -17,7 +17,8 @@ jobs:
       - name: Set env files
         run: |
           mkdir config
-          'echo "$ENV_TEST" >> config/.env.test'
+          cd config
+          echo "$ENV_TEST" >> .env.test
         env:
           ENV_TEST: ${{ secrets.ENV_TEST }}
 
