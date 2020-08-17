@@ -45,6 +45,6 @@ describe("POST /api/auth/local/login", ()=> {
         const {body} = response;
         const {result} = body;
         const user = await decodeJWT(result.token);
-        expect(user.userId).toEqual(createdUser.userId);
+        expect(result.user.userId).toEqual(user.userId);
     });
 });
