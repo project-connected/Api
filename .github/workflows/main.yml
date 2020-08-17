@@ -14,6 +14,12 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
+      - name: Set env files
+        run: |
+          ${{ secrets.ENV }} >> .env
+          mkdir config
+          ${{ secrets.ENV_TEST }} >> config/.env.test
+
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
