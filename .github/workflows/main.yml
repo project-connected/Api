@@ -40,6 +40,7 @@ jobs:
 
       - name: rm env file
         run: |
+          cd ..
           rm -r config
 
       - name: Docker build
