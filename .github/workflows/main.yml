@@ -15,7 +15,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set env files
-        shell: bash
         run: |
           mkdir config
           'echo "$ENV_TEST" >> config/.env.test'
