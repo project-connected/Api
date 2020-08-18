@@ -9,51 +9,57 @@ import {
     DataType,
     BelongsTo,
     HasOne,
-    AutoIncrement, BeforeCreate,
+    AutoIncrement,
+    BeforeCreate,
 } from 'sequelize-typescript';
+import {User} from './User';
 
 @Table({
     underscored: true,
 })
-export class Team extends Model<Team>{
+export class Team extends Model<Team> {
     @AutoIncrement
     @PrimaryKey
     @Column
-    public teamId!: number;
+    teamId!: number;
+
+    @ForeignKey(() => User)
+    @Column
+    createdUser: User
 
     @Column
-    public maxCount : number;
+    maxCount: number;
 
     @Column
-    public area : string;
+    area: string;
 
     @Column
-    public content : string;
+    content: string;
 
     @Column
-    public title : string;
+    title: string;
 
     @Column
-    public theme : string;
+    theme: string;
 
     @Column
-    public thumbnail: string;
+    thumbnail: string;
 
     @Column
-    public viewCount : number;
+    viewCount: number;
 
     @Column
-    public startDate!: Date;
+    startDate!: Date;
 
     @Column
-    public endDate!: Date;
+    endDate!: Date;
 
     @CreatedAt
-    public createDate: Date;
+    createDate: Date;
 
     @UpdatedAt
-    public updateDate: Date;
+    updateDate: Date;
 
     @Column
-    public skill?: string;
+    skill?: string;
 }
