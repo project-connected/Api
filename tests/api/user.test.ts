@@ -44,4 +44,9 @@ describe("POST /api/user", ()=> {
         expect(body.status).toEqual(409)
         expect(body.result.userId).toEqual(1);
     })
+
+    it("200 유저 목록 가져오기 성공", async () => {
+        // const response = await request(app)
+        //     .post()
+    })
 });

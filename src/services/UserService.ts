@@ -50,10 +50,20 @@ export class UserService {
     }
 
     public async selectOneUser(userId : number) {
-
+        const findUser:User = await User.findOne({where: {userId}});
+        if (findUser) {
+            return Builder(Response)
+                .status(200)
+                .result(new UserInfoDto(findUser))
+                .build();
+        }
+        return Builder(Response)
+            .status(409)
+            .result(null)
+            .build();
     }
 
     public async selectUserList(){
-
+        const userList = await User.findAll()
     }
 }
