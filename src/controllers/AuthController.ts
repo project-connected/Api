@@ -31,7 +31,8 @@ export class AuthController {
             expires : expiryDate,
             secure: false,
             httpOnly:false,
-            sameSite:"none"
+            sameSite:"none",
+            domain:'connected.anjoy.info'
         });
 
         return Builder(Response)
