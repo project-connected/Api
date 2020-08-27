@@ -8,7 +8,6 @@ import {User} from '../entities/User';
  * 설정 참조 : https://github.com/typestack/routing-controllers#using-authorization-features
  */
 export const routingControllerOptions:RoutingControllersOptions = {
-    cors: true,
     routePrefix : "/api",
     controllers : [`${__dirname}/../controllers/*{.ts,.js}`],
     middlewares: [`${__dirname}/../middlewares/*{.ts,.js}`],
