@@ -16,6 +16,7 @@
     "builder-pattern": "^1.2.4",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/body-parser": "^1.19.0",
+    "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.6",
     "@types/helmet": "^0.0.47",
     "@types/jest": "^26.0.5",

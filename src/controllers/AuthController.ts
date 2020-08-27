@@ -25,9 +25,11 @@ export class AuthController {
         const token = createJWT(reqUser.userId);
         const user = new UserInfoDto(reqUser);
 
+        const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24);
+
         res.cookie('jwt', token, {
+            expires : expiryDate,
            secure:true,
-           signed:true,
            httpOnly:true,
         });
 
