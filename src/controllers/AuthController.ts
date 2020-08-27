@@ -27,7 +27,7 @@ export class AuthController {
 
         const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24);
 
-        res.cookie('jwt', token, {
+        res.cookie('authorization', token, {
             expires : expiryDate,
            secure:true,
            httpOnly:true,
