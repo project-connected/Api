@@ -28,7 +28,10 @@ export class AuthController {
         const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24);
 
         res.cookie('authorization', token, {
-            expires : expiryDate
+            expires : expiryDate,
+            secure: false,
+            httpOnly:false,
+            sameSite:"none"
         });
 
         return Builder(Response)
