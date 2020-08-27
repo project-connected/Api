@@ -32,7 +32,6 @@ export class App{
 
     private setMiddlewares(): void {
         this.app.use(cors({
-            origin: false,
             credentials: true,
         }));
         // this.app.use(express.json());
