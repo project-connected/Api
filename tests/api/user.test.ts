@@ -26,10 +26,10 @@ describe("POST /api/user", ()=> {
     it("200: 유저 생성 성공", async () => {
         const response = await request(app)
             .post("/api/user")
-            .send(testUser)
+            .send(testUser);
 
         const {body} = response;
-        expect(body.status).toEqual(200)
+        expect(body.status).toEqual(200);
         expect(body.result.userName).toEqual("test");
         expect(body.result.email).toEqual('test@test.com');
     });
@@ -37,10 +37,10 @@ describe("POST /api/user", ()=> {
     it("409: 중복 유저, 유저 생성 실패", async () => {
         const response = await request(app)
             .post("/api/user")
-            .send(testUser)
+            .send(testUser);
 
-        const {body} = response
-        console.log(body)
+        const {body} = response;
+        console.log(body);
         expect(body.status).toEqual(409)
         expect(body.result.userId).toEqual(1);
     })
