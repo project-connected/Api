@@ -9,7 +9,7 @@ import {
     DataType,
     BelongsTo,
     HasOne,
-    AutoIncrement, BeforeCreate, AfterCreate,
+    AutoIncrement, BeforeCreate, AfterCreate, Default,
 } from 'sequelize-typescript';
 import bcrypt  from 'bcrypt';
 @Table({
@@ -22,13 +22,29 @@ export class User extends Model<User>{
     public userId!: number;
 
     @Column(DataType.STRING)
-    public userName!: string;
-
-    @Column(DataType.STRING)
     public email!: string;
 
     @Column(DataType.STRING)
     public password!: string;
+
+    @Column(DataType.STRING)
+    public userName!: string;
+
+    @Column(DataType.STRING)
+    public area: string;
+
+    @Column
+    public skill: string;
+
+    @Column
+    public content:string;
+
+    @Column
+    public thumbnail:string;
+
+    // @Default(false)
+    @Column
+    public hasProfile:boolean;
 
     @BeforeCreate
     static async hashPassword(instance : User) {

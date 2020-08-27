@@ -5,7 +5,7 @@ import {Theme} from "../dtos/EnumTheme";
 import {KeyValueColorDto, KeyValueDto} from "../dtos/CommonDto";
 import {Response} from "../dtos/Response";
 import {Builder} from "builder-pattern";
-import {Skill} from "../dtos/EnumSkill";
+import {Skill, SkillColor} from "../dtos/EnumSkill";
 
 @Service()
 export class CommonService {
@@ -30,6 +30,8 @@ export class CommonService {
     ){
         return Object.entries(DTO)
             .map((e)=>{
+                if (DTO == Skill)
+                    return new DTOTYPE(e[0], e[1], SkillColor[e[0]]).toJson();
                 return new DTOTYPE(e[0], e[1]).toJson();
             });
     }
