@@ -41,7 +41,7 @@ export class App{
         this.app.use(bodyParser.urlencoded({extended:false}));
         this.app.use(cookieParser());
         this.app.use(session({
-            secret: '',
+            secret: 'secret',
             saveUninitialized: false,
             resave: false,
             proxy: true,
