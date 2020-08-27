@@ -32,7 +32,6 @@ export class AuthController {
             secure: false,
             httpOnly:false,
             sameSite:"none",
-            domain:'connected.anjoy.info'
         });
 
         return Builder(Response)
