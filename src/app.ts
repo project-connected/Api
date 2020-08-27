@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from "body-parser";
+import cookieParser from 'cookie-parser';
 import {createDatabaseConnection, sequelize} from './database';
 import {Container} from 'typedi';
 import {
@@ -30,6 +31,7 @@ export class App{
     private setMiddlewares(): void {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({extended:false}));
+        this.app.use(cookieParser());
         this.app.use(passport.initialize()); // bodyParser 이후에 셋팅. 데이터 전달이 가능하다.
         this.app.use(passport.session());
     }
