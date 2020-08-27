@@ -20,10 +20,16 @@ export class AuthController {
     @HttpCode(200)
     @UseBefore(LocalAuthenticate)
     @Post("/local/login")
-    public localLogin(@Req() req){
+    public localLogin(@Req() req, @Res() res){
         const reqUser = req.user;
         const token = createJWT(reqUser.userId);
         const user = new UserInfoDto(reqUser);
+
+        res.cookie('jwt', token, {
+           secure:true,
+           signed:true,
+           httpOnly:true,
+        });
 
         return Builder(Response)
             .status(200)
