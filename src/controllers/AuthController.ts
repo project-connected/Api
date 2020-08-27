@@ -1,7 +1,7 @@
 import {
     JsonController,
     HttpCode,
-    Get, Post, Body, Res, Put, Param, Authorized, UseBefore, Req
+    Get, Post, Body, Res, Put, Param, Authorized, UseBefore, Req, CurrentUser
 } from 'routing-controllers';
 import {AuthService} from "../services/AuthService";
 import {LocalAuthenticate} from "../middlewares/AuthMiddleware";
@@ -9,6 +9,7 @@ import {createJWT} from "../utils/token";
 import {Builder} from "builder-pattern";
 import {Response} from "../dtos/Response";
 import {UserInfoDto} from "../dtos/UserDto";
+import {User} from "../entities/User";
 
 
 @JsonController("/auth")
@@ -29,5 +30,13 @@ export class AuthController {
             .result({user,token})
             .build();
     }
+
+    @HttpCode(200)
+    @Authorized()
+    @Get("/user")
+    public auth(@CurrentUser() user : User){
+        return new UserInfoDto(user);
+    }
+
 
 }

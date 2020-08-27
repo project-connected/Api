@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  ci:
+    name: E2E Tests and Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set env files
+        run: |
+          mkdir config
+          cd config
+          echo "$ENV_TEST" >> .env.test
+        env:
+          ENV_TEST: ${{ secrets.ENV_TEST }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install & Tests
+        run: |
+          npm install
+          npm test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          name: codecov-goodteam-server
+          fail_ci_if_error: true
+
+      - name: rm env file
+        run: |
+          rm -r config
+          ls
+      - name: Docker build
+        run: |
+          docker build -t syh622/goodteam .
+      - name: Docker push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker tag syh622/goodteam syh622/goodteam:latest
+          docker tag syh622/goodteam syh622/goodteam:${{ github.sha }}
+          docker push syh622/goodteam:latest
+          docker push syh622/goodteam:${{ github.sha }}
+  cd:
+    name: SSH and Deploy
+    runs-on: ubuntu-latest
+    needs: ci
+
+    steps:
+      - name: SSH and Deploy Code
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{secrets.MOVE_DIRECTORY}}
+            sudo docker pull syh622/goodteam:latest
+            sudo sh deploy.sh

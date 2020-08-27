@@ -31,4 +31,18 @@ export class UserController {
         const {userId} = updateUserDto;
         return await this.userService.updateUser(userId, updateUserDto);
     }
+
+    @HttpCode(200)
+    @Get("/:userId")
+    public async selectOne(@Param("userId") userId){
+        return await this.userService.selectOneUser(userId);
+    }
+
+    @HttpCode(200)
+    @Get()
+    public async selectUserList(){
+
+    }
+
+
 };
