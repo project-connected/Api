@@ -9,7 +9,7 @@ import {User} from '../entities/User';
  */
 export const routingControllerOptions:RoutingControllersOptions = {
     cors : {
-        origin : "http://connected.anjoy.info",
+        origin : true,
         credentials: true,
     },
     routePrefix : "/api",
