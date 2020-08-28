@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser';
 import {createDatabaseConnection, sequelize} from './database';
 import session from 'express-session';
-import cors from 'cors';
 import {Container} from 'typedi';
 import {
     useContainer,
@@ -31,9 +30,6 @@ export class App{
     }
 
     private setMiddlewares(): void {
-        this.app.use(cors({
-            credentials: true,
-        }));
         // this.app.use(express.json());
         // this.app.use(express.urlencoded({extended:false}));
         this.app.use(bodyParser.json());
