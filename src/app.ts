@@ -42,8 +42,7 @@ export class App{
             proxy: true,
             cookie: {
                 secure: false,
-                httpOnly:false,
-                sameSite:"none",}
+                httpOnly:false}
         }));
         this.app.use(passport.initialize()); // bodyParser 이후에 셋팅. 데이터 전달이 가능하다.
         this.app.use(passport.session());
