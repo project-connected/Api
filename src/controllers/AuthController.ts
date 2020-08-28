@@ -29,7 +29,7 @@ export class AuthController {
 
         res.cookie('authorization', token, {
             expires : expiryDate,
-            secure: false,
+            secure: true,
             httpOnly:false,
             sameSite:"none"
         });
