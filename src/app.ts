@@ -41,7 +41,7 @@ export class App{
             resave: false,
             proxy: true,
             cookie: {
-                secure: false,
+                secure: true,
                 httpOnly:false,
                 sameSite:"none",
             }
