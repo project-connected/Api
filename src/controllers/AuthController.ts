@@ -31,7 +31,7 @@ export class AuthController {
             expires : expiryDate,
             secure: false,
             httpOnly:false,
-            sameSite:"lax"
+            sameSite:"none"
         });
 
         return Builder(Response)
