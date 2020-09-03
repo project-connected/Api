@@ -28,7 +28,11 @@ export class AuthController {
         const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24);
 
         res.cookie('authorization', token, {
-            expires : expiryDate
+            expires : expiryDate,
+            secure: true,
+            httpOnly:false,
+            sameSite:"none",
+            domain:".anjoy.info"
         });
 
         return Builder(Response)
