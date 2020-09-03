@@ -11,6 +11,7 @@ export const routingControllerOptions:RoutingControllersOptions = {
     cors : {
         origin : true,
         credentials: true,
+        exposedHeaders:['Set-Cookie'],
     },
     routePrefix : "/api",
     controllers : [`${__dirname}/../controllers/*{.ts,.js}`],
