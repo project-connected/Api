@@ -17,7 +17,9 @@ export const routingControllerOptions:RoutingControllersOptions = {
     middlewares: [`${__dirname}/../middlewares/*{.ts,.js}`],
     authorizationChecker: async (action: Action, roles: string[]) => {
         try {
-            const token = action.request.headers["authorization"];
+            // const token = action.request.headers["authorization"];
+            const cookie = parseCookies(action.request.headers["cookie"]);
+            const token = cookie['authorization'];
 
             // json web token을 해독함
             const decode: any = jwt.verify(token, env.app.jwtAccessSecret || "");
@@ -38,7 +40,9 @@ export const routingControllerOptions:RoutingControllersOptions = {
     },
     currentUserChecker: async (action:Action) => {
         try {
-            const token = action.request.headers["authorization"];
+            // const token = action.request.headers["authorization"];
+            const cookie = parseCookies(action.request.headers["cookie"]);
+            const token = cookie['authorization'];
 
             // json web token을 해독함
             const decode: any = jwt.verify(token, env.app.jwtAccessSecret || "");
@@ -53,4 +57,12 @@ export const routingControllerOptions:RoutingControllersOptions = {
             return undefined;
         }
     }
+}
+
+function parseCookies(str) {
+    let rx = /([^;=\s]*)=([^;]*)/g;
+    let obj = { };
+    for ( let m ; m = rx.exec(str) ; )
+        obj[ m[1] ] = decodeURIComponent( m[2] );
+    return obj;
 }

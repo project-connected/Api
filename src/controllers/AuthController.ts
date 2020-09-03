@@ -44,8 +44,8 @@ export class AuthController {
     @Authorized()
     @Get("/user")
     public auth(@CurrentUser() user : User,@Req() req){
-        // return new UserInfoDto(user);
-        return {'message':req.cookies.authorization};
+        return new UserInfoDto(user);
+        // return {'message':req.cookies.authorization};
     }
 
 

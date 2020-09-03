@@ -100,7 +100,8 @@ describe("POST /api/team", ()=> {
         const response = await request(app)
             .post("/api/team")
             .send(teamSeed)
-            .set(setHeader(token))
+            // .set(setHeader(token))
+            .set('Cookie', [`authorization=${token}`])
             .expect(200);
 
         const {body} = response;

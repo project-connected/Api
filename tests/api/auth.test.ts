@@ -49,32 +49,29 @@ describe("POST /api/auth/local/login", ()=> {
     });
 });
 
-// describe("POST /api/auth/user", ()=> {
-//     it("401 유효한 토큰이 아닌 경우 유저정보 없음", async ()=>{
-//         const response = await request(app)
-//             .get("/api/auth/user")
-//             // .set({
-//             //     authorization: token,
-//             //     Accept: "application/json",
-//             // })
-//             .expect(401);
-//
-//         const {body} = response;
-//         console.log(body);
-//     })
-// });
-//
-// describe("POST /api/auth/user", ()=> {
-//     it("200 유효한 토큰, 유저 정보 반환", async ()=>{
-//         const response = await request(app)
-//             .get("/api/auth/user")
-//             .set({
-//                 authorization: token,
-//                 Accept: "application/json",
-//             })
-//             .expect(200);
-//
-//         const {body} = response;
-//         console.log(body);
-//     })
-// });
+describe("POST /api/auth/user", ()=> {
+    it("401 유효한 토큰이 아닌 경우 유저정보 없음", async ()=>{
+        const response = await request(app)
+            .get("/api/auth/user")
+            .expect(401);
+
+        const {body} = response;
+        console.log(body);
+    })
+});
+
+describe("POST /api/auth/user", ()=> {
+    it("200 유효한 토큰, 유저 정보 반환", async ()=>{
+        const response = await request(app)
+            .get("/api/auth/user")
+            .set('Cookie', [`authorization=${token}`])
+            // .set({
+            //     authorization: token,
+            //     Accept: "application/json",
+            // })
+            .expect(200);
+
+        const {body} = response;
+        console.log(body);
+    })
+});
