@@ -19,6 +19,14 @@ app.use(bodyParser.json());
 app.use(passprot.initialize());
 app.use(passprot.session());
 
+function parseCookies(str) {
+    let rx = /([^;=\s]*)=([^;]*)/g;
+    let obj = { };
+    for ( let m ; m = rx.exec(str) ; )
+        obj[ m[1] ] = decodeURIComponent( m[2] );
+    return obj;
+}
+
 function setExpress() {
     useExpressServer(app, {
         routePrefix: "/api",
@@ -26,8 +34,10 @@ function setExpress() {
         middlewares: [__dirname+"/../../../src/middlewares/*{.ts,.js}"],
         authorizationChecker: async (action: Action, roles: string[]) => {
             try {
-                const token = action.request.headers["authorization"];
-
+                // const token = action.request.headers["authorization"];
+                // console.log(action.request);
+                const cookie = parseCookies(action.request.headers["cookie"]);
+                const token = cookie['authorization'];
                 // json web token을 해독함
                 const decode: any = jwt.verify(token, env.app.jwtAccessSecret || "");
 
@@ -47,7 +57,9 @@ function setExpress() {
         },
         currentUserChecker: async (action:Action) => {
             try {
-                const token = action.request.headers["authorization"];
+                // const token = action.request.headers["authorization"];
+                const cookie = parseCookies(action.request.headers["cookie"]);
+                const token = cookie['authorization'];
                 // json web token을 해독함
                 const decode: any = jwt.verify(token, env.app.jwtAccessSecret || "");
 
