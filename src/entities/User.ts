@@ -42,8 +42,8 @@ export class User extends Model<User>{
     @Column
     public thumbnail:string;
 
-    // @Default(false)
-    @Column
+    @Default(false)
+    @Column(DataType.BOOLEAN)
     public hasProfile:boolean;
 
     @BeforeCreate
