@@ -42,10 +42,6 @@ export class User extends Model<User>{
     @Column
     public thumbnail:string;
 
-    @Default(false)
-    @Column(DataType.BOOLEAN)
-    public hasProfile:boolean;
-
     @BeforeCreate
     static async hashPassword(instance : User) {
         instance.password = await bcrypt.hash(instance.password, 10);

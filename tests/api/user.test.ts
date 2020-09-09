@@ -32,7 +32,6 @@ describe("POST /api/user", ()=> {
         expect(body.status).toEqual(200);
         expect(body.result.userName).toEqual("test");
         expect(body.result.email).toEqual('test@test.com');
-        expect(body.result.hasProfile).toEqual(false);
     });
 
     it("409: 중복 유저, 유저 생성 실패", async () => {

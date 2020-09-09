@@ -6,7 +6,8 @@ export const sequelize = new Sequelize({
     host:env.database.host,
     database: ":memory:",
     models: [__dirname + "/../../../src/entities/*{.ts,.js}"],
-    sync:{force:true}
+    query:{raw:true},
+    sync:{force:true},
 });
 
 
