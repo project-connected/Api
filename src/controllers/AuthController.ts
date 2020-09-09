@@ -29,8 +29,10 @@ export class AuthController {
 
         res.cookie('authorization', token, {
             expires : expiryDate,
-           secure:true,
-           httpOnly:true,
+            secure: true,
+            httpOnly:false,
+            sameSite:"none",
+            domain:".anjoy.info"
         });
 
         return Builder(Response)
@@ -42,8 +44,9 @@ export class AuthController {
     @HttpCode(200)
     @Authorized()
     @Get("/user")
-    public auth(@CurrentUser() user : User){
+    public auth(@CurrentUser() user : User,@Req() req){
         return new UserInfoDto(user);
+        // return {'message':req.cookies.authorization};
     }
 
 

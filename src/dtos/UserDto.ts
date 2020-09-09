@@ -20,10 +20,22 @@ export class UserInfoDto {
 
     public userId: number;
 
+    public thumbnail: string;
+
+    public area: string;
+
+    public skill: string;
+
+    public content: string;
+
     constructor(user:User) {
         this.email = user.email;
         this.userName = user.userName;
         this.userId = user.userId;
+        this.thumbnail = user.thumbnail;
+        this.area = user.area;
+        this.skill = user.skill;
+        this.content = user.content;
     }
 }
 
