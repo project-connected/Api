@@ -10,7 +10,6 @@ export const sequelize = new Sequelize({
     sync:{force:true},
 });
 
-
 export async function createDatabaseConnection(): Promise<Sequelize> {
     try {
         await sequelize.authenticate(); // 연결 테스트
