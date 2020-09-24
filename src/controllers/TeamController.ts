@@ -54,7 +54,7 @@ export class TeamController{
     public async getAll(
         @QueryParams() pageableTeamDto: PageableTeamDto
     ){
-        console.log(pageableTeamDto.area,pageableTeamDto.skill,pageableTeamDto.theme);
+        // console.log(pageableTeamDto.area,pageableTeamDto.skill,pageableTeamDto.theme);
         return await this.teamService.getTeams(
             pageableTeamDto.offset,
             pageableTeamDto.limit,

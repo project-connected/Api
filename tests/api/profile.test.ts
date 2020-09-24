@@ -2,13 +2,13 @@ import request from 'supertest';
 import app from './config/initApp';
 import {createDatabaseConnection} from './config/initDb';
 import {Sequelize} from "sequelize-typescript";
-import {Builder } from 'builder-pattern';
+import {Builder} from 'builder-pattern';
 import {ProfileService} from "../../src/services/ProfileService";
 import {CreateUserDto, UserInfoDto} from "../../src/dtos/UserDto";
 import {UserService} from "../../src/services/UserService";
 import {Response} from "../../src/dtos/Response";
 import {createJWT} from "../../src/utils/token";
-import {CreateProfileDto, UpdateProfileDto} from "../../src/dtos/ProfileDto";
+import {CreateProfileDto, PageableProfileDto, UpdateProfileDto} from "../../src/dtos/ProfileDto";
 import {Theme} from "../../src/dtos/EnumTheme";
 import {Area} from "../../src/dtos/EnumArea";
 import {Skill} from "../../src/dtos/EnumSkill";
@@ -113,4 +113,26 @@ describe("PUT /api/profiles",  () => {
         expect(profile.content).toEqual("안드로이드 못합니다.");
         expect(profile.title).toEqual("안드로이드 찌는 사람");
     })
+})
+
+describe("GET /api/profiles", ()=>{
+    it("200 : 인재풀 목록 가져오기 성공", async () => {
+        const searhOption = Builder(PageableProfileDto)
+            .skill([Skill.Go,Skill.ANDROID])
+            .purpose([Purpose.ETC,Purpose.ANDROID])
+            .area([Area.CHUNGNAM,Area.BUSAN])
+            .theme([Theme.HACKATHON, Theme.STARTUP])
+            .limit(10)
+            .offset(0)
+            .startDate("2000-01-01")
+            .build();
+
+        const response = await request(app)
+            .get("/api/profiles")
+            .query(searhOption)
+            .expect(200);
+
+        const {body} = response;
+        console.log("api profiles 결과", body);
+    });
 })
