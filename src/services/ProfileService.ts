@@ -13,6 +13,7 @@ import {Op} from "sequelize";
 export class ProfileService{
 
     public async createProfile(createProfileDto:CreateProfileDto) {
+        console.log("인자 정보 : ",createProfileDto);
         const result = await Profile.create(createProfileDto);
         return Builder(Response)
             .status(200)

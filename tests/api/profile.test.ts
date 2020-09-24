@@ -58,10 +58,10 @@ afterAll(async () => {
 describe("POST /api/profiles", ()=>{
     it("200: 유저 인재풀 등록 성공", async () => {
         const createProfile = Builder(CreateProfileDto)
-            .theme(Theme.COMPETITION)
-            .area(Area.BUSAN)
-            .purpose(Purpose.ANDROID)
-            .skill(Skill.ANDROID)
+            .theme(Theme.COMPETITION+"|"+Theme.STUDY)
+            .area(Area.BUSAN+"|"+Area.CHUNGNAM)
+            .purpose(Purpose.ANDROID+"|"+Purpose.ETC)
+            .skill(Skill.ANDROID+"|"+Skill.Go)
             .startDate(new Date())
             .endDate(new Date())
             .content("안드로이드 잘합니다.")
@@ -78,7 +78,7 @@ describe("POST /api/profiles", ()=>{
         const {result} = body;
         createdProfile = result;
 
-        expect(result.area).toEqual(Area.BUSAN);
+        expect(result.area).toEqual(Area.BUSAN+"|"+Area.CHUNGNAM);
     })
 })
 
