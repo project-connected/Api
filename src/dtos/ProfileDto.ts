@@ -1,9 +1,10 @@
-import {Column, DataType} from "sequelize-typescript";
-import {IsEnum, IsOptional} from "class-validator";
+import {Column, DataType, Is} from "sequelize-typescript";
+import {IsEnum, IsOptional, Validate} from "class-validator";
 import {Skill} from "./EnumSkill";
 import {Theme} from "./EnumTheme";
 import {Area} from "./EnumArea";
 import {Purpose} from "./EnumPurpose";
+import {ValidateEnumStr} from "../utils/ValidateEnumStr";
 
 export class PageableProfileDto{
     constructor() {
@@ -76,15 +77,19 @@ export class CreateProfileDto {
     @Column
     public userId?:number;
 
+    @Validate(ValidateEnumStr, [Area])
     @Column
     public area: string;
 
+    @Validate(ValidateEnumStr, [Skill])
     @Column
     public skill: string;
 
+    @Validate(ValidateEnumStr, [Theme])
     @Column
     public theme: string;
 
+    @Validate(ValidateEnumStr, [Purpose])
     @Column
     public purpose: string;
 
