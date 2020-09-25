@@ -44,7 +44,7 @@ export class ProfileController {
     }
 
     @HttpCode(200)
-    @Get()
+    @Post("/list")
     public async selectProfileList(
         @Body() pageableProfileDto:PageableProfileDto
     ){
