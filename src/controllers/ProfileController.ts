@@ -6,18 +6,26 @@ import {
 import {ProfileService} from "../services/ProfileService";
 import {CreateProfileDto, PageableProfileDto, UpdateProfileDto} from "../dtos/ProfileDto";
 import {User} from "../entities/User";
+import {CommonService} from "../services/CommonService";
 
 
 @JsonController("/profiles")
 export class ProfileController {
 
-    constructor(private profileService: ProfileService) {}
+    constructor(
+        private profileService: ProfileService,
+        private commonService: CommonService
+    ) {}
 
     @HttpCode(200)
     @Post()
     @Authorized()
     public async createProfile(@CurrentUser() user : User ,@Body() createProfileDto:CreateProfileDto){
         createProfileDto.userId = user.userId;
+        createProfileDto.area = this.commonService.convertJoinStr("|",createProfileDto.area);
+        createProfileDto.purpose = this.commonService.convertJoinStr("|",createProfileDto.purpose);
+        createProfileDto.skill = this.commonService.convertJoinStr("|",createProfileDto.skill);
+        createProfileDto.theme = this.commonService.convertJoinStr("|",createProfileDto.theme);
         return await this.profileService.createProfile(createProfileDto);
     }
 
@@ -28,14 +36,22 @@ export class ProfileController {
         @CurrentUser() user : User
         , @Body() updateProfileDto:UpdateProfileDto
     ){
+        updateProfileDto.area = this.commonService.convertJoinStr("|",updateProfileDto.area);
+        updateProfileDto.purpose = this.commonService.convertJoinStr("|",updateProfileDto.purpose);
+        updateProfileDto.skill = this.commonService.convertJoinStr("|",updateProfileDto.skill);
+        updateProfileDto.theme = this.commonService.convertJoinStr("|",updateProfileDto.theme);
         return await this.profileService.updateProfile(user.userId,updateProfileDto);
     }
 
     @HttpCode(200)
     @Get()
     public async selectProfileList(
-        @QueryParams() pageableProfileDto:PageableProfileDto
+        @Body() pageableProfileDto:PageableProfileDto
     ){
+        pageableProfileDto.area = this.commonService.convertJoinStr("|",pageableProfileDto.area);
+        pageableProfileDto.purpose = this.commonService.convertJoinStr("|",pageableProfileDto.purpose);
+        pageableProfileDto.skill = this.commonService.convertJoinStr("|",pageableProfileDto.skill);
+        pageableProfileDto.theme = this.commonService.convertJoinStr("|",pageableProfileDto.theme);
         return await this.profileService.selectProfileList(
             pageableProfileDto.offset,
             pageableProfileDto.limit,

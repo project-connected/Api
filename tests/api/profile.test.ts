@@ -14,10 +14,12 @@ import {Area} from "../../src/dtos/EnumArea";
 import {Skill} from "../../src/dtos/EnumSkill";
 import {Purpose} from "../../src/dtos/EnumPurpose";
 import {Profile} from "../../src/entities/Profile";
+import {CommonService} from "../../src/services/CommonService";
 
 let db: Sequelize;
 let profileService:ProfileService;
 let userService:UserService;
+let commonService: CommonService;
 
 const UserSeed = Builder(CreateUserDto)
     .password("abc123!")
@@ -44,6 +46,7 @@ beforeAll(async () => {
     db = await createDatabaseConnection();
     userService = new UserService();
     profileService = new ProfileService();
+    commonService = new CommonService();
     const userResponse = <Response>await userService.createUser(UserSeed);
     createdUser = userResponse.result;
     const profileResponse = <Response>await profileService.createProfile(ProfileSeed);
@@ -58,10 +61,10 @@ afterAll(async () => {
 describe("POST /api/profiles", ()=>{
     it("200: 유저 인재풀 등록 성공", async () => {
         const createProfile = Builder(CreateProfileDto)
-            .theme(Theme.COMPETITION+"|"+Theme.STUDY)
-            .area(Area.BUSAN+"|"+Area.CHUNGNAM)
-            .purpose(Purpose.ANDROID+"|"+Purpose.ETC)
-            .skill(Skill.ANDROID+"|"+Skill.Go)
+            .theme(commonService.getArr(Theme, [Theme.STUDY, Theme.STARTUP]))
+            .area(commonService.getArr(Area, [Area.BUSAN, Area.CHUNGNAM]))
+            .purpose(commonService.getArr(Purpose, [Purpose.ETC]))
+            .skill(commonService.getArr(Skill, [Skill.GO, Skill.ANDROID]))
             .startDate(new Date())
             .endDate(new Date())
             .content("안드로이드 잘합니다.")
@@ -79,6 +82,9 @@ describe("POST /api/profiles", ()=>{
         createdProfile = result;
 
         expect(result.area).toEqual(Area.BUSAN+"|"+Area.CHUNGNAM);
+        expect(result.purpose).toEqual(Purpose.ETC);
+        expect(result.skill).toEqual(Skill.GO+"|"+Skill.ANDROID);
+        expect(result.theme).toEqual(Theme.STUDY+"|"+Theme.STARTUP);
     })
 })
 
@@ -86,10 +92,10 @@ describe("PUT /api/profiles",  () => {
     it("200: 유저 인재풀 수정 성공", async () => {
         const updateProfile = Builder(UpdateProfileDto)
             .profileId(createdProfile.profileId)
-            .theme(Theme.HACKATHON)
-            .area(Area.CHUNGNAM)
-            .purpose(Purpose.ETC)
-            .skill(Skill.Go)
+            .theme(commonService.getArr(Theme, [Theme.HACKATHON]))
+            .area(commonService.getArr(Area, [Area.CHUNGNAM]))
+            .purpose(commonService.getArr(Purpose, [Purpose.ETC]))
+            .skill(commonService.getArr(Skill, [Skill.GO]))
             .startDate(new Date())
             .endDate(new Date())
             .content("안드로이드 못합니다.")
@@ -109,7 +115,7 @@ describe("PUT /api/profiles",  () => {
         expect(profile.theme).toEqual(Theme.HACKATHON);
         expect(profile.area).toEqual(Area.CHUNGNAM);
         expect(profile.purpose).toEqual(Purpose.ETC);
-        expect(profile.skill).toEqual(Skill.Go);
+        expect(profile.skill).toEqual(Skill.GO);
         expect(profile.content).toEqual("안드로이드 못합니다.");
         expect(profile.title).toEqual("안드로이드 찌는 사람");
     })
@@ -118,10 +124,10 @@ describe("PUT /api/profiles",  () => {
 describe("GET /api/profiles", ()=>{
     it("200 : 인재풀 목록 가져오기 성공", async () => {
         const searhOption = Builder(PageableProfileDto)
-            .skill([Skill.Go,Skill.ANDROID])
-            .purpose([Purpose.ETC,Purpose.ANDROID])
-            .area([Area.CHUNGNAM,Area.BUSAN])
-            .theme([Theme.HACKATHON, Theme.STARTUP])
+            .skill(commonService.getArr(Skill, [Skill.GO,Skill.ANDROID]))
+            .purpose(commonService.getArr(Purpose, [Purpose.ETC,Purpose.ANDROID]))
+            .area(commonService.getArr(Area, [Area.CHUNGNAM,Area.BUSAN]))
+            .theme(commonService.getArr(Theme, [Theme.HACKATHON, Theme.STARTUP]))
             .limit(10)
             .offset(0)
             .startDate("2000-01-01")
