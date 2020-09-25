@@ -4,14 +4,14 @@ import {Skill} from "./EnumSkill";
 import {Theme} from "./EnumTheme";
 import {Area} from "./EnumArea";
 import {Purpose} from "./EnumPurpose";
-import {ValidateEnumStr} from "../utils/ValidateEnumStr";
+import {ValidateEnumArr} from "../utils/ValidateEnumArr";
 
 export class PageableProfileDto{
     constructor() {
-        this.theme = this.theme == null ? [] : this.theme;
-        this.skill = this.skill == null ? [] : this.skill;
-        this.area = this.area == null ? [] : this.area;
-        this.purpose = this.purpose == null ? [] : this.purpose;
+        // this.theme = this.theme == null ? [] : this.theme;
+        // this.skill = this.skill == null ? [] : this.skill;
+        // this.area = this.area == null ? [] : this.area;
+        // this.purpose = this.purpose == null ? [] : this.purpose;
     }
     @Column
     public offset: number;
@@ -19,25 +19,29 @@ export class PageableProfileDto{
     @Column
     public limit: number;
 
-    @IsEnum(Skill,{each:true})
+    // @IsEnum(Skill,{each:true})
+    @Validate(ValidateEnumArr, [Skill])
     @IsOptional()
     @Column(DataType.ARRAY)
-    public skill: Skill[];
+    public skill: any;
 
-    @IsEnum(Theme,{each:true})
+    // @IsEnum(Theme,{each:true})
+    @Validate(ValidateEnumArr, [Theme])
     @IsOptional()
     @Column(DataType.ARRAY)
-    public theme: Theme[];
+    public theme: any;
 
-    @IsEnum(Area,{each:true})
+    // @IsEnum(Area,{each:true})
+    @Validate(ValidateEnumArr, [Area])
     @IsOptional()
     @Column(DataType.ARRAY)
-    public area: Area[];
+    public area: any;
 
-    @IsEnum(Purpose,{each:true})
+    // @IsEnum(Purpose,{each:true})
+    @Validate(ValidateEnumArr, [Purpose])
     @IsOptional()
     @Column(DataType.ARRAY)
-    public purpose: Purpose[];
+    public purpose: any;
 
     @IsOptional()
     @Column(DataType.STRING)
@@ -48,17 +52,25 @@ export class UpdateProfileDto {
     @Column
     public profileId:number;
 
-    @Column
-    public area: string;
+    @Validate(ValidateEnumArr, [Area])
+    @IsOptional()
+    @Column(DataType.ARRAY)
+    public area: any;
 
-    @Column
-    public skill: string;
+    @Validate(ValidateEnumArr, [Skill])
+    @IsOptional()
+    @Column(DataType.ARRAY)
+    public skill: any;
 
-    @Column
-    public theme: string;
+    @Validate(ValidateEnumArr, [Theme])
+    @IsOptional()
+    @Column(DataType.ARRAY)
+    public theme: any;
 
-    @Column
-    public purpose: string;
+    @Validate(ValidateEnumArr, [Purpose])
+    @IsOptional()
+    @Column(DataType.ARRAY)
+    public purpose: any;
 
     @Column
     public startDate: Date;
@@ -77,21 +89,21 @@ export class CreateProfileDto {
     @Column
     public userId?:number;
 
-    @Validate(ValidateEnumStr, [Area])
-    @Column
-    public area: string;
+    @Validate(ValidateEnumArr, [Area])
+    @Column(DataType.ARRAY)
+    public area: any;
 
-    @Validate(ValidateEnumStr, [Skill])
-    @Column
-    public skill: string;
+    @Validate(ValidateEnumArr, [Skill])
+    @Column(DataType.ARRAY)
+    public skill: any;
 
-    @Validate(ValidateEnumStr, [Theme])
-    @Column
-    public theme: string;
+    @Validate(ValidateEnumArr, [Theme])
+    @Column(DataType.ARRAY)
+    public theme: any;
 
-    @Validate(ValidateEnumStr, [Purpose])
-    @Column
-    public purpose: string;
+    @Validate(ValidateEnumArr, [Purpose])
+    @Column(DataType.ARRAY)
+    public purpose: any;
 
     @Column
     public startDate: Date;
