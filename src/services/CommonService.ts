@@ -104,6 +104,14 @@ export class CommonService {
             .build();
     }
 
+    public getPurpose(){
+        return Builder(Response)
+            .status(200)
+            ._links({self:''})
+            .result(this.getCommonCodeData(Purpose, KeyValueDto))
+            .build();
+    }
+
     public convertJoinStr(
         sep: string,
         codeObj? : any[]

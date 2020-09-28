@@ -37,4 +37,10 @@ export class TeamController {
         return this.commonService.getStatus();
     }
 
+    @HttpCode(200)
+    @Get("/purpose")
+    public async getPurpose() {
+        return this.commonService.getPurpose();
+    }
+
 }

@@ -79,3 +79,16 @@ describe("GET /api/commmon/status", () => {
         console.log(result);
     })
 })
+
+describe("GET /api/commmon/purpose", () => {
+    it("200 공통 목적 데이터 가져오기 성공", async () => {
+        const response = await request(app)
+            .get("/api/common/purpose")
+            .expect(200);
+
+        const {body} = response;
+        expect(200).toEqual(body.status);
+        const {result} = body;
+        console.log(result);
+    })
+})
