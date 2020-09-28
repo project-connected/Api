@@ -10,12 +10,14 @@ import {User} from "../entities/User";
 import {Container, Inject} from "typedi";
 import {Response} from "../dtos/Response";
 import {Match} from "../entities/Match";
+import {CommonService} from "../services/CommonService";
 
 
 @JsonController("/team")
 export class TeamController{
     constructor(private teamService: TeamService,
                 private matchService: MatchService,
+                private commonService: CommonService,
                 @Inject("sequelize") private sequelize) {}
     /**
      * 새로운 팀을 등록한다.
@@ -28,6 +30,11 @@ export class TeamController{
     public async createTeam(@Body() creatTeamDto: CreateTeamDto, @CurrentUser() user?: User){
         try {
             const result = await this.sequelize.transaction(async (t) => {
+                creatTeamDto.area = this.commonService.convertJoinStr("|",creatTeamDto.area);
+                creatTeamDto.purpose = this.commonService.convertJoinStr("|",creatTeamDto.purpose);
+                creatTeamDto.skill = this.commonService.convertJoinStr("|",creatTeamDto.skill);
+                creatTeamDto.theme = this.commonService.convertJoinStr("|",creatTeamDto.theme);
+
                 const team: Team = await this.teamService.createTeam(creatTeamDto, t);
 
                 const createMatchDto = Builder(CreateMatchDto)

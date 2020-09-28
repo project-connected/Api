@@ -28,10 +28,22 @@ const UserSeed = Builder(CreateUserDto)
     .build();
 
 const ProfileSeed = Builder(CreateProfileDto)
-    .theme(Theme.COMPETITION)
-    .area(Area.BUSAN)
-    .purpose(Purpose.ANDROID)
-    .skill(Skill.ANDROID)
+    .theme([
+        { key: 'COMPETITION', value: '공모전' },
+        { key: 'HACKATHON', value: '해커톤' }
+    ])
+    .area([
+        { key: 'BUSAN', value: '부산' },
+        { key: 'DAEGU', value: '대구' },
+        { key: 'INCHEON', value: '인천' }
+    ])
+    .purpose([
+        { key: 'APPLICATION', value: '통합 어플리케이션 개발' },
+        { key: 'WEB', value: '웹 개발' }
+    ])
+    .skill([
+        { key: 'NODE', value: 'Node.JS', color:'#41a94b' },
+    ])
     .startDate(new Date())
     .endDate(new Date())
     .content("안드로이드 잘합니다.")
@@ -49,8 +61,8 @@ beforeAll(async () => {
     commonService = new CommonService();
     const userResponse = <Response>await userService.createUser(UserSeed);
     createdUser = userResponse.result;
-    const profileResponse = <Response>await profileService.createProfile(ProfileSeed);
-    createdProfile = profileResponse.result;
+    // const profileResponse = <Response>await profileService.createProfile(ProfileSeed);
+    // createdProfile = profileResponse.result;
     token = createJWT(createdUser.userId);
 })
 
@@ -120,6 +132,25 @@ describe("PUT /api/profiles",  () => {
         expect(profile.content).toEqual("안드로이드 못합니다.");
         expect(profile.title).toEqual("안드로이드 찌는 사람");
     })
+});
+
+describe("GET /api/profiles/:id", ()=>{
+    it("200 : 아이디에 해당하는 인재풀 하나 가져오기 성공", async () => {
+        const response = await request(app)
+            .get(`/api/profiles/${createdProfile.profileId}`)
+            .expect(200);
+
+        const {body} = response;
+        const {result} = body;
+        const profile:Profile = result;
+
+        expect(profile.area).toEqual([
+                { key: 'BUSAN', value: '부산' },
+                { key: 'DAEGU', value: '대구' },
+                { key: 'INCHEON', value: '인천' }
+            ]
+        );
+    });
 })
 
 describe("POST /api/profiles/list", ()=>{
@@ -142,4 +173,4 @@ describe("POST /api/profiles/list", ()=>{
         const {body} = response;
         console.log("api profiles 결과", body);
     });
-})
+});

@@ -12,11 +12,17 @@ import {TeamService} from "../../src/services/TeamService";
 import {MatchService} from "../../src/services/MatchService";
 import {CreateMatchDto} from "../../src/dtos/MatchDto";
 import {Response} from "../../src/dtos/Response";
+import {CommonService} from "../../src/services/CommonService";
+import {Area} from "../../src/dtos/EnumArea";
+import {Theme} from "../../src/dtos/EnumTheme";
+import {Skill} from "../../src/dtos/EnumSkill";
+import {Purpose} from "../../src/dtos/EnumPurpose";
 
 let db: Sequelize;
 let userService:UserService;
 let teamService:TeamService;
 let matchService:MatchService;
+let commonService: CommonService;
 
 const setHeader = (
     token: string,
@@ -58,6 +64,7 @@ beforeAll(async () => {
     userService = new UserService();
     teamService = new TeamService();
     matchService = new MatchService();
+    commonService = new CommonService();
 
     const {result} = <Response>await userService.createUser(UserSeed);
     createdUser = result;
@@ -87,14 +94,16 @@ afterAll(async () => {
 describe("POST /api/team", ()=> {
     it("200: 팀 생성에 성공한다.", async () => {
         const teamSeed = Builder(CreateTeamDto)
-            .area("areaId")
+            .area(commonService.getArr(Area, [Area.INCHEON]))
+            .theme(commonService.getArr(Theme, [Theme.HACKATHON, Theme.STARTUP]))
+            .skill(commonService.getArr(Skill, [Skill.NODE, Skill.ANDROID]))
+            .purpose(commonService.getArr(Purpose, [Purpose.WEB, Purpose.APPLICATION]))
             .title("title")
             .content("content")
             .endDate(new Date())
             .startDate(new Date())
             .maxCount(5)
             .thumbnail("")
-            .theme("temeId")
             .build();
 
         const response = await request(app)

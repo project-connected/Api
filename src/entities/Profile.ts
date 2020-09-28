@@ -1,4 +1,15 @@
-import {AutoIncrement, Column, CreatedAt, DataType, Model, PrimaryKey, Table, UpdatedAt} from "sequelize-typescript";
+import {
+    AfterFind,
+    AutoIncrement,
+    Column,
+    CreatedAt,
+    DataType,
+    Model,
+    PrimaryKey,
+    Table,
+    UpdatedAt
+} from "sequelize-typescript";
+import {Skill, SkillColor} from "../dtos/EnumSkill";
 
 @Table({
     underscored: true,
@@ -12,7 +23,7 @@ export class Profile extends Model<Profile> {
     @Column
     public userId:number;
 
-    @Column(DataType.STRING)
+    @Column
     public area: string;
 
     @Column
@@ -41,5 +52,4 @@ export class Profile extends Model<Profile> {
 
     @UpdatedAt
     public updateDate: Date;
-
 }

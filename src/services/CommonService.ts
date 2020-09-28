@@ -117,6 +117,13 @@ export class CommonService {
         codeObj? : any[]
     ) {
         if (codeObj) return codeObj.map((e)=>e.value).join(sep);
+        else return null;
+    }
+
+    public convertArrValueStr(
+        codeObj : any[]
+    ){
+        if (codeObj) return codeObj.map((e)=>e.vlaue);
         else return [];
     }
 }

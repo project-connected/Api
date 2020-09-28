@@ -8,9 +8,11 @@ import {Skill} from "../dtos/EnumSkill";
 import {Theme} from "../dtos/EnumTheme";
 import {Purpose} from "../dtos/EnumPurpose";
 import {Op} from "sequelize";
+import {CommonService} from "./CommonService";
 
 @Service()
 export class ProfileService{
+
     public async createProfile(createProfileDto:CreateProfileDto) {
         const result = await Profile.create(createProfileDto);
         return Builder(Response)
@@ -36,29 +38,43 @@ export class ProfileService{
             .build();
     }
 
-    public async selectProfile(){
-
+    public async selectProfile(profileId:number, commonService:CommonService){
+        let profile = await Profile.findOne({where:{profileId}});
+        if (profile){
+            if (profile.purpose)
+                profile.purpose = commonService.getArr(Purpose, profile.purpose.split("|"));
+            if (profile.skill)
+                profile.skill = commonService.getArr(Skill, profile.skill.split("|"));
+            if (profile.theme)
+                profile.theme = commonService.getArr(Theme, profile.theme.split("|"));
+            if (profile.area)
+                profile.area = commonService.getArr(Area, profile.area.split("|"));
+        }
+        return Builder(Response)
+            .status(200)
+            .result(profile)
+            .build();
     }
 
     public async selectProfileList(
         offset: number,
         limit: number,
-        area: Area[],
-        skill: Skill[],
-        theme: Theme[],
-        purpose: Purpose[],
+        area:  string,
+        skill: string,
+        theme: string,
+        purpose: string,
         startDate?: string,
     ) {
         try{
             const searchOptions = {};
-            if (area.length)
-                searchOptions['area'] = {[Op.regexp]: area.join('|')};
-            if (skill.length)
-                searchOptions['skill'] = {[Op.regexp]: skill.join('|')};
-            if (theme.length)
-                searchOptions['theme'] = {[Op.regexp]: theme.join('|')};
-            if (purpose.length)
-                searchOptions['purpose'] = {[Op.regexp]: purpose.join('|')};
+            if (area)
+                searchOptions['area'] = {[Op.regexp]: area};
+            if (skill)
+                searchOptions['skill'] = {[Op.regexp]: skill};
+            if (theme)
+                searchOptions['theme'] = {[Op.regexp]: theme};
+            if (purpose)
+                searchOptions['purpose'] = {[Op.regexp]: purpose};
             if (startDate)
                 searchOptions[Op.and] = [
                     {startDate: {[Op.gte]:new Date(startDate)}}
