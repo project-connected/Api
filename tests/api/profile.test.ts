@@ -60,11 +60,12 @@ afterAll(async () => {
 
 describe("POST /api/profiles", ()=>{
     it("200: 유저 인재풀 등록 성공", async () => {
+
         const createProfile = Builder(CreateProfileDto)
-            .theme(commonService.getArr(Theme, [Theme.STUDY, Theme.STARTUP]))
-            .area(commonService.getArr(Area, [Area.BUSAN, Area.CHUNGNAM]))
-            .purpose(commonService.getArr(Purpose, [Purpose.ETC]))
-            .skill(commonService.getArr(Skill, [Skill.GO, Skill.ANDROID]))
+            .area(commonService.getArr(Area, [Area.BUSAN, Area.DAEGU, Area.INCHEON]))
+            .theme(commonService.getArr(Theme, [Theme.COMPETITION, Theme.HACKATHON]))
+            .purpose(commonService.getArr(Purpose, [Purpose.APPLICATION, Purpose.WEB]))
+            .skill(commonService.getArr(Skill, [Skill.NODE]))
             .startDate(new Date())
             .endDate(new Date())
             .content("안드로이드 잘합니다.")
@@ -81,10 +82,10 @@ describe("POST /api/profiles", ()=>{
         const {result} = body;
         createdProfile = result;
 
-        expect(result.area).toEqual(Area.BUSAN+"|"+Area.CHUNGNAM);
-        expect(result.purpose).toEqual(Purpose.ETC);
-        expect(result.skill).toEqual(Skill.GO+"|"+Skill.ANDROID);
-        expect(result.theme).toEqual(Theme.STUDY+"|"+Theme.STARTUP);
+        expect(result.area).toEqual(Area.BUSAN+"|"+Area.DAEGU+"|"+Area.INCHEON);
+        expect(result.theme).toEqual(Theme.COMPETITION+"|"+Theme.HACKATHON);
+        expect(result.purpose).toEqual(Purpose.APPLICATION+"|"+Purpose.WEB);
+        expect(result.skill).toEqual(Skill.NODE);
     })
 })
 
@@ -121,7 +122,7 @@ describe("PUT /api/profiles",  () => {
     })
 })
 
-describe("GET /api/profiles", ()=>{
+describe("POST /api/profiles/list", ()=>{
     it("200 : 인재풀 목록 가져오기 성공", async () => {
         const searhOption = Builder(PageableProfileDto)
             .skill(commonService.getArr(Skill, [Skill.GO,Skill.ANDROID]))
@@ -134,7 +135,7 @@ describe("GET /api/profiles", ()=>{
             .build();
 
         const response = await request(app)
-            .get("/api/profiles")
+            .post("/api/profiles/list")
             .query(searhOption)
             .expect(200);
 
