@@ -9,6 +9,7 @@ import {Theme} from "../dtos/EnumTheme";
 import {Purpose} from "../dtos/EnumPurpose";
 import {Op} from "sequelize";
 import {CommonService} from "./CommonService";
+import {User} from "../entities/User";
 
 @Service()
 export class ProfileService{
@@ -39,7 +40,13 @@ export class ProfileService{
     }
 
     public async selectProfile(profileId:number, commonService:CommonService){
-        let profile = await Profile.findOne({where:{profileId}});
+        let profile =
+            await Profile.findOne({
+                where:{profileId},
+                include: [
+                    {model: User, required:true, attributes: { exclude: ['password'] }}
+                ], raw:false});
+        profile = profile.toJSON();
         if (profile){
             if (profile.purpose)
                 profile.purpose = commonService.getArr(Purpose, profile.purpose.split("|"));

@@ -104,7 +104,7 @@ describe("POST /api/profiles", ()=>{
 describe("PUT /api/profiles",  () => {
     it("200: 유저 인재풀 수정 성공", async () => {
         const updateProfile = Builder(UpdateProfileDto)
-            .profileId(createdProfile.profileId)
+            .profileId(1)
             .theme(commonService.getArr(Theme, [Theme.HACKATHON]))
             .area(commonService.getArr(Area, [Area.CHUNGNAM]))
             .purpose(commonService.getArr(Purpose, [Purpose.ETC]))
@@ -144,6 +144,7 @@ describe("GET /api/profiles/:id", ()=>{
         const {result} = body;
         const profile:Profile = result;
 
+        console.log("결과", body);
         expect(profile.area).toEqual([
                 { key: 'BUSAN', value: '부산' },
                 { key: 'DAEGU', value: '대구' },
