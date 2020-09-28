@@ -12,6 +12,7 @@ import {
     AutoIncrement, BeforeCreate, AfterCreate, Default,
 } from 'sequelize-typescript';
 import bcrypt  from 'bcrypt';
+import {Profile} from "./Profile";
 @Table({
     underscored: true,
 })
@@ -41,6 +42,9 @@ export class User extends Model<User>{
 
     @Column
     public thumbnail:string;
+
+    @HasOne(()=> Profile)
+    public profile: Profile;
 
     @BeforeCreate
     static async hashPassword(instance : User) {

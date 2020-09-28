@@ -1,15 +1,17 @@
 import {
     AfterFind,
-    AutoIncrement,
+    AutoIncrement, BelongsTo,
     Column,
     CreatedAt,
-    DataType,
+    DataType, ForeignKey,
     Model,
     PrimaryKey,
     Table,
     UpdatedAt
 } from "sequelize-typescript";
 import {Skill, SkillColor} from "../dtos/EnumSkill";
+import {Team} from "./Team";
+import {User} from "./User";
 
 @Table({
     underscored: true,
@@ -20,8 +22,12 @@ export class Profile extends Model<Profile> {
     @Column
     public profileId:number;
 
+    @ForeignKey(() => User)
     @Column
     public userId:number;
+
+    @BelongsTo(()=> User, "userId")
+    user: User;
 
     @Column
     public area: string;
@@ -52,4 +58,5 @@ export class Profile extends Model<Profile> {
 
     @UpdatedAt
     public updateDate: Date;
+
 }
