@@ -1,12 +1,12 @@
-import {
-    JsonController,
-    HttpCode,
-    Get, Post, Body, Res, Put, Param, Authorized, CurrentUser, QueryParams
-} from 'routing-controllers';
+import {Authorized, Body, CurrentUser, Get, HttpCode, JsonController, Param, Post, Put} from 'routing-controllers';
 import {ProfileService} from "../services/ProfileService";
 import {CreateProfileDto, PageableProfileDto, UpdateProfileDto} from "../dtos/ProfileDto";
 import {User} from "../entities/User";
 import {CommonService} from "../services/CommonService";
+import {Area} from "../dtos/EnumArea";
+import {Skill} from "../dtos/EnumSkill";
+import {Theme} from "../dtos/EnumTheme";
+import {Purpose} from "../dtos/EnumPurpose";
 
 
 @JsonController("/profiles")
@@ -44,21 +44,23 @@ export class ProfileController {
     }
 
     @HttpCode(200)
+    @Get("/:id")
+    public async selectProfileOne(@Param("id") id: number){
+        return await this.profileService.selectProfile(id, this.commonService);
+    }
+
+    @HttpCode(200)
     @Post("/list")
     public async selectProfileList(
         @Body() pageableProfileDto:PageableProfileDto
     ){
-        pageableProfileDto.area = this.commonService.convertJoinStr("|",pageableProfileDto.area);
-        pageableProfileDto.purpose = this.commonService.convertJoinStr("|",pageableProfileDto.purpose);
-        pageableProfileDto.skill = this.commonService.convertJoinStr("|",pageableProfileDto.skill);
-        pageableProfileDto.theme = this.commonService.convertJoinStr("|",pageableProfileDto.theme);
         return await this.profileService.selectProfileList(
             pageableProfileDto.offset,
             pageableProfileDto.limit,
-            pageableProfileDto.area,
-            pageableProfileDto.skill,
-            pageableProfileDto.theme,
-            pageableProfileDto.purpose,
+            this.commonService.convertJoinStr("|",pageableProfileDto.area),
+            this.commonService.convertJoinStr("|",pageableProfileDto.skill),
+            this.commonService.convertJoinStr("|",pageableProfileDto.theme),
+            this.commonService.convertJoinStr("|",pageableProfileDto.purpose),
             pageableProfileDto.startDate
         );
     }

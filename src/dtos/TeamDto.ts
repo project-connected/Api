@@ -3,23 +3,36 @@ import {Column, DataType, Default} from "sequelize-typescript";
 import {Skill} from "./EnumSkill";
 import {Theme} from "./EnumTheme";
 import {Area} from "./EnumArea";
-import {IsDateString, IsEnum, IsOptional} from "class-validator";
+import {IsDateString, IsEnum, IsOptional, Validate} from "class-validator";
+import {ValidateEnumArr} from "../utils/ValidateEnumArr";
+import {Purpose} from "./EnumPurpose";
 
 export class CreateTeamDto {
     @Column
     public maxCount : number;
 
-    @Column
-    public area : string;
+    @Validate(ValidateEnumArr, [Area])
+    @Column(DataType.ARRAY)
+    public area: any;
+
+    @Validate(ValidateEnumArr, [Skill])
+    @Column(DataType.ARRAY)
+    public skill: any;
+
+    @Validate(ValidateEnumArr, [Theme])
+    @Column(DataType.ARRAY)
+    public theme: any;
+
+    @Validate(ValidateEnumArr, [Purpose])
+    @Column(DataType.ARRAY)
+    public purpose: any;
+
 
     @Column
     public content : string;
 
     @Column
     public title : string;
-
-    @Column
-    public theme : string;
 
     @Column
     public thumbnail: string;
@@ -29,9 +42,6 @@ export class CreateTeamDto {
 
     @Column
     public endDate!: Date;
-
-    @Column
-    public skill?: string;
 
 }
 
