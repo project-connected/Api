@@ -92,8 +92,12 @@ export class ProfileService{
                 limit,
                 where: searchOptions,
                 order: [['createDate', 'desc']],
-                raw:true
+                raw:false,
+                include: [
+                    {model: User, required:true, attributes: { exclude: ['password'] }}
+                ]
             });
+            let list = [];
             for (const profile of result){
                 if (profile.purpose)
                     profile.purpose = commonService.getArr(Purpose, profile.purpose.split("|"));
@@ -103,10 +107,11 @@ export class ProfileService{
                     profile.theme = commonService.getArr(Theme, profile.theme.split("|"));
                 if (profile.area)
                     profile.area = commonService.getArr(Area, profile.area.split("|"));
+                list.push(profile.toJSON());
             }
             return Builder(Response)
                 .status(200)
-                .result(result)
+                .result(list)
                 ._links({self:''})
                 .build();
         }catch (e) {
