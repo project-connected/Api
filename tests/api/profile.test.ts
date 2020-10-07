@@ -144,7 +144,7 @@ describe("GET /api/profiles/:id", ()=>{
         const {result} = body;
         const profile:Profile = result;
 
-        console.log("결과", body);
+        // console.log("결과", body);
         expect(profile.area).toEqual([
                 { key: 'BUSAN', value: '부산' },
                 { key: 'DAEGU', value: '대구' },
@@ -157,10 +157,10 @@ describe("GET /api/profiles/:id", ()=>{
 describe("POST /api/profiles/list", ()=>{
     it("200 : 인재풀 목록 가져오기 성공", async () => {
         const searhOption = Builder(PageableProfileDto)
-            .skill(commonService.getArr(Skill, [Skill.GO,Skill.ANDROID]))
-            .purpose(commonService.getArr(Purpose, [Purpose.ETC,Purpose.ANDROID]))
-            .area(commonService.getArr(Area, [Area.CHUNGNAM,Area.BUSAN]))
-            .theme(commonService.getArr(Theme, [Theme.HACKATHON, Theme.STARTUP]))
+            // .skill(commonService.getArr(Skill, [Skill.GO,Skill.ANDROID]))
+            // .purpose(commonService.getArr(Purpose, [Purpose.ETC,Purpose.ANDROID]))
+            // .area(commonService.getArr(Area, [Area.CHUNGNAM,Area.BUSAN]))
+            // .theme(commonService.getArr(Theme, [Theme.HACKATHON, Theme.STARTUP]))
             .limit(10)
             .offset(0)
             .startDate("2000-01-01")
@@ -172,6 +172,7 @@ describe("POST /api/profiles/list", ()=>{
             .expect(200);
 
         const {body} = response;
+        const {result} = body;
         console.log("api profiles 결과", body);
     });
 });

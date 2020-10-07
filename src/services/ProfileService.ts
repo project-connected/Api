@@ -64,6 +64,7 @@ export class ProfileService{
     }
 
     public async selectProfileList(
+        commonService:CommonService,
         offset: number,
         limit: number,
         area:  string,
@@ -93,6 +94,16 @@ export class ProfileService{
                 order: [['createDate', 'desc']],
                 raw:true
             });
+            for (const profile of result){
+                if (profile.purpose)
+                    profile.purpose = commonService.getArr(Purpose, profile.purpose.split("|"));
+                if (profile.skill)
+                    profile.skill = commonService.getArr(Skill, profile.skill.split("|"));
+                if (profile.theme)
+                    profile.theme = commonService.getArr(Theme, profile.theme.split("|"));
+                if (profile.area)
+                    profile.area = commonService.getArr(Area, profile.area.split("|"));
+            }
             return Builder(Response)
                 .status(200)
                 .result(result)

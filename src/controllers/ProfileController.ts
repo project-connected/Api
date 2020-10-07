@@ -55,6 +55,7 @@ export class ProfileController {
         @Body() pageableProfileDto:PageableProfileDto
     ){
         return await this.profileService.selectProfileList(
+            this.commonService,
             pageableProfileDto.offset,
             pageableProfileDto.limit,
             this.commonService.convertJoinStr("|",pageableProfileDto.area),
