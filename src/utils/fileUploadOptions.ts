@@ -3,14 +3,14 @@ import AWS from 'aws-sdk';
 import {env} from "../env";
 
 const s3 = new AWS.S3({
-   accessKeyId:env.s3.key,
-   secretAccessKey: env.s3.secret,
-   region: env.s3.region
+   accessKeyId:env.s3.key || '',
+   secretAccessKey: env.s3.secret || '',
+   region: env.s3.region || ''
 });
 
 const storage = multerS3({
     s3,
-    bucket: env.s3.bucket,
+    bucket: env.s3.bucket || '',
     acl: 'public-read',
     metadata(req: Express.Request, file: Express.Multer.File, callback: (error: any, metadata?: any) => void) {
         callback(null, {fieldName: file.originalname});
@@ -20,7 +20,7 @@ const storage = multerS3({
     }
 });
 
-const opitons = {
+const options = {
     storage,
     limits: {
         files: 10,
@@ -28,6 +28,6 @@ const opitons = {
     }
 }
 
-export const fileUploadOptions = () => opitons
+export const fileUploadOptions = options;
 
 
