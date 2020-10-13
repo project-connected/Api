@@ -67,5 +67,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{secrets.MOVE_DIRECTORY}}
+            sudo docker stop $(docker ps -a -q); docker rm $(docker ps -a -q); docker volume rm $(docker volume ls -qf dangling=true)
+            sudo docker network rm $(docker network ls -q)
             sudo docker pull syh622/goodteam:latest
             sudo sh deploy.sh
