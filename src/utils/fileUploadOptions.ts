@@ -12,6 +12,7 @@ const storage = multerS3({
     s3,
     bucket: env.s3.bucket || '',
     acl: 'public-read',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata(req: Express.Request, file: Express.Multer.File, callback: (error: any, metadata?: any) => void) {
         callback(null, {fieldName: file.originalname});
     },
