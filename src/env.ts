@@ -1,6 +1,7 @@
 /**
  * NODE_ENV에 따른 .env 파일을 로드한다.
  */
+
 require("dotenv").config({
     path: `config/.env.${process.env.NODE_ENV || "development"}`,
 });
@@ -33,4 +34,10 @@ export const env = {
     sentry: {
         dsn: process.env.SENTRY_DSN,
     },
+    s3:{
+        key: process.env.KEY,
+        secret:process.env.SECRET,
+        region:process.env.REGION,
+        bucket:process.env.BUCKET
+    }
 };
