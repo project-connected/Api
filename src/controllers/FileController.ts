@@ -12,7 +12,7 @@ export class FileController {
 
     @HttpCode(200)
     @Post("/thumb")
-    public async postThumbnail(@UploadedFile("thumb",{options:thumbnailUploadOptions}) file: any) {
+    public async postThumbnail(@UploadedFile("img",{options:thumbnailUploadOptions}) file: any) {
         return Builder(Response)
             .status(200)
             .result(file)
@@ -22,7 +22,7 @@ export class FileController {
 
     @HttpCode(200)
     @Post("/content")
-    public async postContentImg(@UploadedFiles("content",{options:contentFileUploadOptions}) files: any[]) {
+    public async postContentImg(@UploadedFiles("img",{options:contentFileUploadOptions}) files: any[]) {
         return Builder(Response)
             .status(200)
             .result(files)
@@ -30,3 +30,4 @@ export class FileController {
             .build();
     }
 };
+

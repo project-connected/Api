@@ -56,4 +56,7 @@ export class Team extends Model<Team>{
 
     @Column
     public skill?: string;
+
+    @Column
+    public skillCount?: string;
 }
