@@ -81,6 +81,7 @@ export class CommonService {
     }
 
     public getSkills(){
+
         return Builder(Response)
             .status(200)
             ._links({self:''})

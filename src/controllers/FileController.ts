@@ -1,9 +1,9 @@
 import {
     JsonController,
     HttpCode,
-    Get, Post, Body, Res, Put, Param, Authorized, UploadedFile
+    Get, Post, Body, Res, Put, Param, Authorized, UploadedFile, UploadedFiles
 } from 'routing-controllers';
-import {fileUploadOptions} from "../utils/fileUploadOptions";
+import {thumbnailUploadOptions, contentFileUploadOptions} from "../utils/fileUploadOptions";
 import {Builder} from "builder-pattern";
 import {Response} from "../dtos/Response";
 
@@ -12,10 +12,20 @@ export class FileController {
 
     @HttpCode(200)
     @Post("/thumb")
-    public async createUser(@UploadedFile("thumb",{options:fileUploadOptions}) file: any) {
+    public async postThumbnail(@UploadedFile("thumb",{options:thumbnailUploadOptions}) file: any) {
         return Builder(Response)
             .status(200)
             .result(file)
+            ._links({self:''})
+            .build();
+    }
+
+    @HttpCode(200)
+    @Post("/content")
+    public async postContentImg(@UploadedFiles("content",{options:contentFileUploadOptions}) files: any[]) {
+        return Builder(Response)
+            .status(200)
+            .result(files)
             ._links({self:''})
             .build();
     }

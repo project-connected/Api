@@ -43,5 +43,4 @@ export class UserController {
     public async selectUserList(){
 
     }
-
 };
