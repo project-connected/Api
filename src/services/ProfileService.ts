@@ -76,13 +76,13 @@ export class ProfileService{
         try{
             const searchOptions = {};
             if (area)
-                searchOptions['area'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${area})(?=[^가-힣a-zA-Z0-9])/g`};
+                searchOptions['area'] = {[Op.regexp]: `(?<=[^가-힣a-zA-Z0-9])(${area})(?=[^가-힣a-zA-Z0-9])`};
             if (skill)
-                searchOptions['skill'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${skill})(?=[^가-힣a-zA-Z0-9])/g`};
+                searchOptions['skill'] = {[Op.regexp]: `(?<=[^가-힣a-zA-Z0-9])(${skill})(?=[^가-힣a-zA-Z0-9])`};
             if (theme)
-                searchOptions['theme'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${theme})(?=[^가-힣a-zA-Z0-9])/g`};
+                searchOptions['theme'] = {[Op.regexp]: `(?<=[^가-힣a-zA-Z0-9])(${theme})(?=[^가-힣a-zA-Z0-9])`};
             if (purpose)
-                searchOptions['purpose'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${purpose})(?=[^가-힣a-zA-Z0-9])/g`};
+                searchOptions['purpose'] = {[Op.regexp]: `(?<=[^가-힣a-zA-Z0-9])(${purpose})(?=[^가-힣a-zA-Z0-9])`};
             if (startDate)
                 searchOptions[Op.and] = [
                     {startDate: {[Op.gte]:new Date(startDate)}}
