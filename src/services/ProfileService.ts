@@ -76,13 +76,13 @@ export class ProfileService{
         try{
             const searchOptions = {};
             if (area)
-                searchOptions['area'] = {[Op.regexp]: area};
+                searchOptions['area'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${area})(?=[^가-힣a-zA-Z0-9])/g`};
             if (skill)
-                searchOptions['skill'] = {[Op.regexp]: skill};
+                searchOptions['skill'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${skill})(?=[^가-힣a-zA-Z0-9])/g`};
             if (theme)
-                searchOptions['theme'] = {[Op.regexp]: theme};
+                searchOptions['theme'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${theme})(?=[^가-힣a-zA-Z0-9])/g`};
             if (purpose)
-                searchOptions['purpose'] = {[Op.regexp]: purpose};
+                searchOptions['purpose'] = {[Op.regexp]: `/(?<=[^가-힣a-zA-Z0-9])(${purpose})(?=[^가-힣a-zA-Z0-9])/g`};
             if (startDate)
                 searchOptions[Op.and] = [
                     {startDate: {[Op.gte]:new Date(startDate)}}
