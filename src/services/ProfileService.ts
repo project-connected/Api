@@ -49,13 +49,13 @@ export class ProfileService{
         profile = profile.toJSON();
         if (profile){
             if (profile.purpose)
-                profile.purpose = commonService.getArr(Purpose, profile.purpose.split("|"));
+                profile.purpose = commonService.getArr(Purpose, profile.purpose.trim().split("|"));
             if (profile.skill)
-                profile.skill = commonService.getArr(Skill, profile.skill.split("|"));
+                profile.skill = commonService.getArr(Skill, profile.skill.trim().split("|"));
             if (profile.theme)
-                profile.theme = commonService.getArr(Theme, profile.theme.split("|"));
+                profile.theme = commonService.getArr(Theme, profile.theme.trim().split("|"));
             if (profile.area)
-                profile.area = commonService.getArr(Area, profile.area.split("|"));
+                profile.area = commonService.getArr(Area, profile.area.trim().split("|"));
         }
         return Builder(Response)
             .status(200)
@@ -100,13 +100,13 @@ export class ProfileService{
             let list = [];
             for (const profile of result){
                 if (profile.purpose)
-                    profile.purpose = commonService.getArr(Purpose, profile.purpose.split("|"));
+                    profile.purpose = commonService.getArr(Purpose, profile.purpose.trim().split("|"));
                 if (profile.skill)
-                    profile.skill = commonService.getArr(Skill, profile.skill.split("|"));
+                    profile.skill = commonService.getArr(Skill, profile.skill.trim().split("|"));
                 if (profile.theme)
-                    profile.theme = commonService.getArr(Theme, profile.theme.split("|"));
+                    profile.theme = commonService.getArr(Theme, profile.theme.trim().split("|"));
                 if (profile.area)
-                    profile.area = commonService.getArr(Area, profile.area.split("|"));
+                    profile.area = commonService.getArr(Area, profile.area.trim().split("|"));
                 list.push(profile.toJSON());
             }
             return Builder(Response)
